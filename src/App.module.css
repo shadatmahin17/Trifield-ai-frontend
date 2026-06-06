@@ -33,7 +33,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: #FFFFFF;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
   text-decoration: none;
+}
+
+.logoImage,
+.logoMobileImage,
+.logoCompactImage {
+  display: block;
+  width: auto;
+  object-fit: contain;
+}
+
+.logoImage {
+  height: 40px;
+  max-width: 100%;
+}
+
+.logoMobileImage {
+  height: 28px;
+  max-width: 150px;
+}
+
+.logoCompactImage {
+  display: none;
+  height: 32px;
+  max-width: 42px;
 }
 
 .brand {
@@ -187,10 +216,16 @@
   .logo {
     justify-content: center;
     gap: 0;
+    padding: 6px;
+    border-radius: 12px;
   }
 
-  .logo img {
-    height: 30px !important;
+  .logoImage {
+    display: none;
+  }
+
+  .logoCompactImage {
+    display: block;
   }
 
   .brand {
@@ -275,6 +310,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 4px 8px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
     text-decoration: none;
   }
 

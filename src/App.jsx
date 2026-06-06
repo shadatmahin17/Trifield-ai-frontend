@@ -32,8 +32,7 @@ function Nav() {
       {/* Mobile Top Header */}
       <header className={styles.mobileHeader}>
         <NavLink to="/" className={styles.logoMobile}>
-          <img 
-            type="image/png"
+         <img 
             src="/logo.png" 
             alt="Logo" 
             style={{ height: '32px', width: 'auto' }}

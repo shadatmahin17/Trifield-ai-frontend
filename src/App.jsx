@@ -24,9 +24,9 @@ function Nav() {
   ]
 
   const disciplines = [
-    { name: 'Aerospace', color: '#3AA0FF' },
-    { name: 'Materials Science', color: '#E8C87A' },
-    { name: 'Textile Engineering', color: '#7BC4FF' },
+    { name: 'Aerospace', color: 'var(--blue)' },
+    { name: 'Materials Science', color: 'var(--gold-light)' },
+    { name: 'Textile Engineering', color: 'var(--white)' },
   ]
 
   return (

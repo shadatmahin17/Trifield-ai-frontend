@@ -53,7 +53,7 @@
   color: var(--muted); padding: 6px; cursor: pointer; display: flex; align-items: center;
   transition: color 0.15s; flex-shrink: 0;
 }
-.removeBtn:hover { color: #FF8080; border-color: rgba(255,80,80,0.4); }
+.removeBtn:hover { color: var(--danger); border-color: rgba(180,35,24,0.24); }
 .addAuthorBtn {
   display: flex; align-items: center; gap: 6px;
   background: none; border: 1px dashed var(--border); border-radius: 8px;
@@ -91,7 +91,7 @@
 .generateBtn {
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
   background: var(--blue); border: none; border-radius: 10px;
-  color: var(--white); font-family: var(--font-body); font-size: 14px;
+  color: var(--accent-contrast); font-family: var(--font-body); font-size: 14px;
   font-weight: 500; padding: 12px; cursor: pointer; transition: background 0.15s;
 }
 .generateBtn:hover:not(:disabled) { background: var(--blue-light); }
@@ -102,7 +102,7 @@
   font-size: 14px; padding: 12px 20px; cursor: pointer; transition: color 0.15s;
 }
 .clearBtn:hover { color: var(--white); }
-.error { font-size: 13px; color: #FF8080; }
+.error { font-size: 13px; color: var(--danger); }
 
 /* ── Results ── */
 .results {
@@ -124,7 +124,7 @@
   animation: fadeUp 0.35s ease both;
   transition: border-color 0.2s;
 }
-.citationCard:hover { border-color: var(--blue-glow); box-shadow: 0 4px 16px rgba(133, 72, 54, 0.04); }
+.citationCard:hover { border-color: var(--border-bright); box-shadow: 0 4px 16px rgba(133, 72, 54, 0.04); }
 .citationHeader {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 12px;
@@ -141,7 +141,7 @@
   transition: all 0.15s;
 }
 .copyBtn:hover { color: var(--white); border-color: var(--blue); }
-.copied { color: #5AE06A !important; border-color: rgba(90,224,106,0.4) !important; }
+.copied { color: var(--success) !important; border-color: rgba(39,122,56,0.24) !important; }
 .citationText {
   font-size: 13px; color: var(--white-dim); line-height: 1.7;
   font-family: var(--font-body);

@@ -19,7 +19,7 @@
   letter-spacing: -0.02em;
   margin-bottom: 16px;
 }
-.heroTitle em { font-style: italic; color: var(--blue-glow); }
+.heroTitle em { font-style: italic; color: var(--blue); }
 .heroSub {
   font-size: 13px;
   color: var(--muted);
@@ -40,8 +40,8 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .searchBar:focus-within {
-  border-color: var(--blue-glow);
-  box-shadow: 0 0 0 3px rgba(58,160,255,0.1);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(133,72,54,0.12);
 }
 .searchIcon { color: var(--muted); flex-shrink: 0; }
 .input {
@@ -87,12 +87,12 @@
   transition: color 0.15s, border-color 0.15s;
   flex-shrink: 0;
 }
-.filterBtn:hover, .filterActive { color: var(--blue-glow); border-color: var(--blue); }
+.filterBtn:hover, .filterActive { color: var(--blue); border-color: var(--blue); }
 .searchBtn {
   background: var(--blue);
   border: none;
   border-radius: 8px;
-  color: var(--white);
+  color: var(--accent-contrast);
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 500;
@@ -145,7 +145,7 @@
   transition: border-color 0.15s, color 0.15s, background 0.15s;
   white-space: nowrap;
 }
-.exampleBtn:hover { border-color: var(--blue); color: var(--white); background: rgba(26,111,196,0.1); }
+.exampleBtn:hover { border-color: var(--blue); color: var(--white); background: rgba(133,72,54,0.08); }
 
 /* ── Results header ── */
 .results { display: flex; flex-direction: column; gap: 12px; }
@@ -175,7 +175,7 @@
   transition: border-color 0.2s, background 0.2s;
 }
 .card:hover { 
-  border-color: var(--blue-glow); 
+  border-color: var(--border-bright);
   background: rgba(133, 72, 54, 0.02);
   box-shadow: 0 6px 24px rgba(133, 72, 54, 0.05);
 }
@@ -195,12 +195,12 @@
 .cardActions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .oaBtn {
   display: flex; align-items: center; gap: 5px;
-  background: rgba(46,141,232,0.12); border: 1px solid rgba(46,141,232,0.3);
-  border-radius: 6px; color: #7BC4FF; font-size: 12px;
+  background: rgba(133,72,54,0.10); border: 1px solid rgba(133,72,54,0.24);
+  border-radius: 6px; color: var(--blue); font-size: 12px;
   padding: 4px 10px; text-decoration: none; font-family: var(--font-body);
   transition: background 0.15s; white-space: nowrap;
 }
-.oaBtn:hover { background: rgba(46,141,232,0.22); }
+.oaBtn:hover { background: rgba(133,72,54,0.16); }
 .doiBtn {
   display: flex; align-items: center;
   background: var(--navy-light); border: 1px solid var(--border);
@@ -215,7 +215,7 @@
   line-height: 1.35; margin-bottom: 8px;
 }
 .title a { color: var(--white); text-decoration: none; transition: color 0.15s; }
-.title a:hover { color: var(--blue-glow); }
+.title a:hover { color: var(--blue); }
 
 .authors { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
 .journal {
@@ -233,7 +233,7 @@
 .expandBtn {
   display: inline-flex; align-items: center; gap: 4px;
   background: none; border: none; cursor: pointer;
-  color: var(--blue-glow); font-size: 12px; font-family: var(--font-body);
+  color: var(--blue); font-size: 12px; font-family: var(--font-body);
   padding: 4px 0; margin-top: 4px; transition: color 0.15s;
 }
 .expandBtn:hover { color: var(--blue-light); }
@@ -248,7 +248,7 @@
 }
 .skRow {
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--navy-light) 25%, rgba(42,82,152,0.4) 50%, var(--navy-light) 75%);
+  background: linear-gradient(90deg, var(--navy-light) 25%, rgba(133,72,54,0.12) 50%, var(--navy-light) 75%);
   background-size: 400px 100%;
   animation: shimmer 1.4s infinite;
 }
@@ -256,8 +256,8 @@
 /* ── Error / empty ── */
 .error {
   display: flex; align-items: flex-start; gap: 12px;
-  background: rgba(220, 60, 60, 0.1); border: 1px solid rgba(220,60,60,0.25);
-  border-radius: 10px; padding: 16px 20px; color: #FF8080;
+  background: var(--danger-soft); border: 1px solid rgba(180,35,24,0.22);
+  border-radius: 10px; padding: 16px 20px; color: var(--danger);
   animation: fadeUp 0.3s ease;
 }
 .error strong { display: block; margin-bottom: 4px; }

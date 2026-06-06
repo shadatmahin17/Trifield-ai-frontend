@@ -12,10 +12,10 @@ const DISCIPLINES = [
 ]
 
 const DISC_COLORS = {
-  aerospace: { bg: 'rgba(133, 72, 54, 0.08)', color: '#854836', border: 'rgba(133, 72, 54, 0.2)' },
-  materials: { bg: 'rgba(255, 178, 44, 0.08)', color: '#B67500', border: 'rgba(255, 178, 44, 0.25)' },
-  textile:   { bg: 'rgba(0, 0, 0, 0.05)', color: '#000000', border: 'rgba(0, 0, 0, 0.12)' },
-  general:   { bg: 'rgba(110, 110, 110, 0.08)', color: '#6E6E6E', border: 'rgba(110, 110, 110, 0.2)' },
+  aerospace: { bg: 'rgba(133, 72, 54, 0.08)', color: 'var(--blue)', border: 'rgba(133, 72, 54, 0.2)' },
+  materials: { bg: 'rgba(255, 178, 44, 0.14)', color: '#7A4D00', border: 'rgba(255, 178, 44, 0.38)' },
+  textile:   { bg: 'rgba(0, 0, 0, 0.05)', color: 'var(--white)', border: 'rgba(0, 0, 0, 0.12)' },
+  general:   { bg: 'rgba(110, 110, 110, 0.08)', color: 'var(--muted)', border: 'rgba(110, 110, 110, 0.2)' },
 }
 
 const EXAMPLE_QUERIES = [

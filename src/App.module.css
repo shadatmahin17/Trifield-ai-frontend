@@ -39,9 +39,6 @@
   justify-content: center;
   width: 100%;
   padding: 8px 10px;
-  border-radius: 14px;
-  background: var(--navy-mid);
-  box-shadow: 0 12px 30px rgba(133, 72, 54, 0.10);
   text-decoration: none;
 }
 

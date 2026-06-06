@@ -263,3 +263,65 @@
   text-align: center; padding: 64px 0; color: var(--muted);
   display: flex; flex-direction: column; align-items: center; gap: 12px;
 }
+
+
+@media (max-width: 768px) {
+  .page { gap: 24px; }
+  .hero { padding: 28px 0 8px; }
+  .heroTitle { font-size: clamp(30px, 10vw, 44px); }
+  .heroSub { font-size: 12px; }
+
+  .searchBar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .searchIcon { margin-left: 2px; }
+  .input {
+    flex: 1 1 calc(100% - 36px);
+    font-size: 16px;
+    padding: 8px 4px;
+  }
+
+  .discSelect { flex: 1 1 150px; min-width: 0; }
+  .filterBtn { justify-content: center; }
+  .searchBtn { justify-content: center; flex: 1 1 120px; }
+
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding: 12px;
+  }
+  .filters input, .filters select { width: 100%; }
+
+  .examples { align-items: stretch; }
+  .examplesLabel { flex-basis: 100%; }
+  .exampleBtn { flex: 1 1 220px; white-space: normal; text-align: left; }
+
+  .card { padding: 16px; }
+  .cardHeader { flex-direction: column; align-items: stretch; }
+  .cardActions { justify-content: flex-start; }
+  .title { font-size: 16px; }
+}
+
+@media (max-width: 430px) {
+  .page { gap: 20px; }
+  .hero { padding: 18px 0 4px; }
+  .heroEyebrow { margin-bottom: 10px; font-size: 10px; }
+  .heroTitle { font-size: clamp(28px, 9vw, 36px); margin-bottom: 10px; }
+
+  .searchBar { border-radius: 14px; }
+  .discSelect { flex-basis: 100%; width: 100%; }
+  .filterBtn { flex: 0 0 44px; min-height: 42px; }
+  .searchBtn { min-height: 42px; padding: 10px 16px; }
+
+  .filters { grid-template-columns: 1fr; }
+  .resultsHeader { align-items: flex-start; }
+  .resultQuery { width: 100%; overflow-wrap: anywhere; }
+  .card, .skeleton, .error { padding: 14px; }
+  .cardMeta { gap: 6px; }
+  .abstract { -webkit-line-clamp: 4; }
+  .empty { padding: 44px 12px; }
+}

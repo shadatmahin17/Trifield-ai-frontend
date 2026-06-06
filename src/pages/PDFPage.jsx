@@ -1,6 +1,23 @@
 import { useState, useRef, useEffect } from 'react'
 import { uploadPDF, chatWithPDF, extractProperties } from '../lib/api.js'
 
+
+function useIsNarrowViewport(breakpoint = 768) {
+  const [isNarrow, setIsNarrow] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth <= breakpoint
+  })
+
+  useEffect(() => {
+    const onResize = () => setIsNarrow(window.innerWidth <= breakpoint)
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [breakpoint])
+
+  return isNarrow
+}
+
 const SUGGESTIONS = [
   'What is the main contribution of this paper?',
   'What methodology was used?',
@@ -75,7 +92,7 @@ function PDFViewer({ objectUrl, filename }) {
   )
 }
 
-function ChatPanel({ sessionId, filename, messages, setMessages, onReset }) {
+function ChatPanel({ sessionId, filename, messages, setMessages, onReset, isNarrow }) {
   const [input,      setInput]      = useState('')
   const [sending,    setSending]    = useState(false)
   const [properties, setProps]      = useState(null)
@@ -127,8 +144,8 @@ function ChatPanel({ sessionId, filename, messages, setMessages, onReset }) {
     <div style={{ display:'flex', flexDirection:'column', height:'100%', background:'#FFFFFF' }}>
       {/* Tab bar */}
       <div style={{
-        height:40, background:'#FFFFFF', borderBottom:'1px solid rgba(0,0,0,0.08)',
-        display:'flex', alignItems:'center', padding:'0 8px', gap:2, flexShrink:0
+        minHeight:40, background:'#FFFFFF', borderBottom:'1px solid rgba(0,0,0,0.08)',
+        display:'flex', alignItems:'center', flexWrap:isNarrow ? 'wrap' : 'nowrap', padding:isNarrow ? '8px' : '0 8px', gap:4, flexShrink:0
       }}>
         {['chat','properties'].map(t => (
           <button key={t} onClick={() => t === 'properties' && !properties ? extract() : setTab(t)}
@@ -147,7 +164,7 @@ function ChatPanel({ sessionId, filename, messages, setMessages, onReset }) {
           </button>
         ))}
         <button onClick={onReset} style={{
-          marginLeft:'auto', background:'none',
+          marginLeft:isNarrow ? 0 : 'auto', background:'none',
           border:'1px solid rgba(0,0,0,0.08)', borderRadius:6,
           color:'#6E6E6E', fontSize:11, fontFamily:'inherit',
           padding:'4px 10px', cursor:'pointer',
@@ -179,7 +196,7 @@ function ChatPanel({ sessionId, filename, messages, setMessages, onReset }) {
                   </div>
                 )}
                 <div style={{
-                  maxWidth:'88%', padding:'10px 13px', fontSize:12, lineHeight:1.65,
+                  maxWidth:isNarrow ? '100%' : '88%', padding:'10px 13px', fontSize:12, lineHeight:1.65,
                   color: m.role==='user' ? '#FFFFFF' : '#222222',
                   borderRadius: m.role==='user' ? '12px 12px 4px 12px' : '12px 12px 12px 4px',
                   background: m.role==='user' ? '#854836' : '#F7F7F7',
@@ -239,7 +256,7 @@ function ChatPanel({ sessionId, filename, messages, setMessages, onReset }) {
 
           {/* Input */}
           <div style={{
-            padding:'10px 14px', borderTop:'1px solid rgba(0,0,0,0.08)',
+            padding:isNarrow ? '10px' : '10px 14px', borderTop:'1px solid rgba(0,0,0,0.08)',
             background:'#FFFFFF', display:'flex', gap:8, alignItems:'flex-end', flexShrink:0
           }}>
             <textarea
@@ -323,6 +340,7 @@ export default function PDFPage() {
   const [messages,  setMessages]  = useState([])
   const [splitPct,  setSplitPct]  = useState(52)
   const containerRef = useRef()
+  const isNarrow = useIsNarrowViewport()
   const resizing     = useRef(false)
   const startX       = useRef(0)
   const startW       = useRef(0)
@@ -379,7 +397,7 @@ export default function PDFPage() {
         @keyframes tfSpin   { to { transform:rotate(360deg) } }
         @keyframes tfBounce { 0%,80%,100%{transform:translateY(0);opacity:.4} 40%{transform:translateY(-5px);opacity:1} }
       `}</style>
-      <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:'70vh', gap:24, padding:40 }}>
+      <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:isNarrow ? 'auto' : '70vh', gap:isNarrow ? 20 : 24, padding:isNarrow ? '24px 0' : 40 }}>
         <div style={{ textAlign:'center', animation:'tfFadeUp 0.5s ease both' }}>
           <h1 style={{ fontFamily:'Inter,system-ui,-apple-system,sans-serif', fontSize:'clamp(30px,5vw,46px)', fontWeight:400, color:'#000000', letterSpacing:'-0.02em', marginBottom:8, lineHeight:1.15 }}>
             Drop a paper,<br/><em style={{ fontStyle:'italic', color:'#854836' }}>start asking</em>
@@ -395,7 +413,7 @@ export default function PDFPage() {
           style={{
             width:'100%', maxWidth:400,
             border:'2px dashed rgba(133,72,54,0.22)', borderRadius:16,
-            padding:'44px 32px', display:'flex', flexDirection:'column',
+            padding:isNarrow ? '30px 18px' : '44px 32px', display:'flex', flexDirection:'column',
             alignItems:'center', gap:14, cursor:'pointer', transition:'all 0.2s',
             animation:'tfFadeUp 0.5s 0.1s ease both'
           }}
@@ -418,7 +436,7 @@ export default function PDFPage() {
 
   // Loading
   if (uploading) return (
-    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:'60vh', gap:16, color:'#6E6E6E' }}>
+    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:isNarrow ? '45vh' : '60vh', gap:16, color:'#6E6E6E' }}>
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#854836" strokeWidth="2.5" style={{ animation:'tfSpin 0.75s linear infinite' }}>
         <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round"/>
       </svg>
@@ -437,24 +455,25 @@ export default function PDFPage() {
       <div
         ref={containerRef}
         style={{
-          display:'flex', height:'calc(100vh - 108px)',
+          display:'flex', flexDirection:isNarrow ? 'column' : 'row', height:isNarrow ? 'auto' : 'calc(100vh - 108px)',
+          minHeight:isNarrow ? 'calc(100vh - 154px)' : undefined,
           background:'#FFFFFF', overflow:'hidden',
           borderRadius:12, border:'1px solid rgba(0,0,0,0.08)',
-          margin:'-24px -24px 0'
+          margin:isNarrow ? '0' : '-24px -24px 0'
         }}
       >
         {/* PDF panel */}
-        <div style={{ width:`${splitPct}%`, flexShrink:0, overflow:'hidden' }}>
+        <div style={{ width:isNarrow ? '100%' : `${splitPct}%`, height:isNarrow ? '42vh' : 'auto', flexShrink:0, overflow:'hidden', borderBottom:isNarrow ? '1px solid rgba(0,0,0,0.08)' : 'none' }}>
           <PDFViewer objectUrl={objectUrl} filename={file?.name}/>
         </div>
 
         {/* Resize handle */}
         <div
-          onMouseDown={onMouseDown}
+          onMouseDown={isNarrow ? undefined : onMouseDown}
           style={{
-            width:4, flexShrink:0, cursor:'col-resize',
+            display:isNarrow ? 'none' : 'flex', width:4, flexShrink:0, cursor:'col-resize',
             background:'rgba(0,0,0,0.08)', transition:'background 0.15s',
-            position:'relative', display:'flex', alignItems:'center', justifyContent:'center'
+            position:'relative', alignItems:'center', justifyContent:'center'
           }}
           onMouseEnter={e => e.currentTarget.style.background='rgba(133,72,54,0.26)'}
           onMouseLeave={e => e.currentTarget.style.background='rgba(0,0,0,0.08)'}
@@ -463,9 +482,9 @@ export default function PDFPage() {
         </div>
 
         {/* Chat panel */}
-        <div style={{ flex:1, overflow:'hidden', minWidth:0 }}>
+        <div style={{ flex:1, overflow:'hidden', minWidth:0, minHeight:isNarrow ? '55vh' : 0 }}>
           {sessionId
-            ? <ChatPanel sessionId={sessionId} filename={file?.name} messages={messages} setMessages={setMessages} onReset={reset}/>
+            ? <ChatPanel sessionId={sessionId} filename={file?.name} messages={messages} setMessages={setMessages} onReset={reset} isNarrow={isNarrow}/>
             : <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:'100%', color:'#6E6E6E' }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#854836" strokeWidth="2.5" style={{ animation:'tfSpin 0.75s linear infinite' }}>
                   <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" strokeLinecap="round"/>

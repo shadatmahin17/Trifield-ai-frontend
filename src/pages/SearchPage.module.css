@@ -174,7 +174,11 @@
   animation: fadeUp 0.4s ease both;
   transition: border-color 0.2s, background 0.2s;
 }
-.card:hover { border-color: rgba(58,160,255,0.25); background: rgba(15,32,64,0.9); }
+.card:hover { 
+  border-color: var(--blue-glow); 
+  background: rgba(133, 72, 54, 0.02);
+  box-shadow: 0 6px 24px rgba(133, 72, 54, 0.05);
+}
 
 .cardHeader {
   display: flex; justify-content: space-between; align-items: flex-start;
@@ -261,4 +265,82 @@
 .empty {
   text-align: center; padding: 64px 0; color: var(--muted);
   display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+
+/* ── Responsive Search page ── */
+@media (max-width: 768px) {
+  .hero {
+    padding: 24px 0 8px;
+  }
+  .heroTitle {
+    font-size: 28px;
+  }
+  .searchBar {
+    flex-wrap: wrap;
+    padding: 8px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+  .searchIcon {
+    order: 1;
+    margin-left: 6px;
+  }
+  .input {
+    order: 2;
+    flex: 1;
+    font-size: 14px;
+    padding: 6px;
+  }
+  .clearBtn {
+    order: 3;
+    padding: 6px;
+  }
+  .discSelect {
+    order: 4;
+    flex: 1 1 calc(50% - 4px);
+    font-size: 12px;
+    height: 38px;
+  }
+  .filterBtn {
+    order: 5;
+    height: 38px;
+    padding: 8px 12px;
+  }
+  .searchBtn {
+    order: 6;
+    flex: 1 1 100%;
+    height: 38px;
+    justify-content: center;
+    font-size: 13px;
+  }
+  .filters {
+    flex-wrap: wrap;
+    gap: 12px;
+    border-radius: 0 0 12px 12px;
+    padding: 12px;
+  }
+  .filters label {
+    flex: 1 1 calc(50% - 6px);
+  }
+  .filters input, .filters select {
+    width: 100%;
+  }
+  .card {
+    padding: 16px;
+  }
+  .cardHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .cardActions {
+    justify-content: flex-start;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 8px;
+    margin-top: 4px;
+    width: 100%;
+  }
+  .title {
+    font-size: 15px;
+  }
 }

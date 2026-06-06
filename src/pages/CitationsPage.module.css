@@ -74,8 +74,8 @@
 }
 .styleBtn:hover { color: var(--white); border-color: var(--blue); }
 .styleBtnActive {
-  background: rgba(26,111,196,0.15); border-color: var(--blue);
-  color: var(--blue-glow);
+  background: rgba(133,72,54,0.08); border-color: var(--blue);
+  color: var(--blue);
 }
 
 /* ── All styles toggle ── */
@@ -116,7 +116,7 @@
   background: var(--navy-mid); border: 1px dashed var(--border);
   border-radius: 16px;
 }
-.emptyHint { font-size: 12px; font-family: var(--font-mono); color: var(--blue-glow); }
+.emptyHint { font-size: 12px; font-family: var(--font-mono); color: var(--blue); }
 
 .citationCard {
   background: var(--navy-mid); border: 1px solid var(--border);
@@ -124,7 +124,7 @@
   animation: fadeUp 0.35s ease both;
   transition: border-color 0.2s;
 }
-.citationCard:hover { border-color: rgba(58,160,255,0.25); }
+.citationCard:hover { border-color: var(--blue-glow); box-shadow: 0 4px 16px rgba(133, 72, 54, 0.04); }
 .citationHeader {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 12px;
@@ -148,3 +148,24 @@
 }
 
 .spin { animation: spin 0.8s linear infinite; }
+
+/* ── Responsive Citations ── */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .styleGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .form {
+    padding: 16px;
+  }
+  .row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

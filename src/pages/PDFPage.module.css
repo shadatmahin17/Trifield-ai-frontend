@@ -20,7 +20,7 @@
 }
 .dropZone:hover, .dragging {
   border-color: var(--blue-glow);
-  background: rgba(26,111,196,0.05);
+  background: rgba(133, 72, 54, 0.04);
 }
 .uploadIcon {
   width: 72px; height: 72px; border-radius: 50%;
@@ -88,9 +88,9 @@
   transition: color 0.15s; margin-bottom: -1px;
 }
 .tab:hover { color: var(--white-dim); }
-.tabActive { color: var(--blue-glow) !important; border-bottom-color: var(--blue-glow); }
+.tabActive { color: var(--blue) !important; border-bottom-color: var(--blue); }
 .tabBadge {
-  background: var(--blue); color: var(--white);
+  background: var(--blue); color: #FFFFFF !important;
   font-size: 10px; padding: 1px 6px; border-radius: 10px;
 }
 
@@ -108,7 +108,7 @@
   font-size: 14px; line-height: 1.6;
 }
 .user .msgBubble {
-  background: var(--blue); color: var(--white);
+  background: var(--blue); color: #FFFFFF !important;
   border-radius: 12px 12px 4px 12px;
 }
 .assistant .msgBubble {
@@ -145,7 +145,7 @@
   padding: 0 20px 12px;
 }
 .suggestedBtn {
-  background: rgba(26,111,196,0.08); border: 1px solid var(--border);
+  background: rgba(133, 72, 54, 0.05); border: 1px solid var(--border);
   border-radius: 20px; color: var(--white-dim); font-size: 12px;
   font-family: var(--font-body); padding: 5px 12px; cursor: pointer;
   transition: border-color 0.15s, color 0.15s;
@@ -168,7 +168,7 @@
 .chatInput:disabled { opacity: 0.5; }
 .sendBtn {
   background: var(--blue); border: none; border-radius: 10px;
-  color: var(--white); padding: 10px 16px; cursor: pointer;
+  color: #FFFFFF !important; padding: 10px 16px; cursor: pointer;
   display: flex; align-items: center;
   transition: background 0.15s; flex-shrink: 0;
 }
@@ -197,9 +197,96 @@
   color: var(--white-dim); vertical-align: top;
 }
 .propTable tr:last-child td { border-bottom: none; }
-.propTable tr:hover td { background: rgba(26,111,196,0.05); }
+.propTable tr:hover td { background: rgba(133, 72, 54, 0.04); }
 .valCell { font-family: var(--font-mono); color: var(--blue-glow); font-weight: 500; }
 .unitCell { font-family: var(--font-mono); color: var(--muted); }
 .stdCell { font-size: 12px; color: var(--muted); }
 
 .spin { animation: spin 0.8s linear infinite; }
+
+/* ── Responsive PDF Page ── */
+@media (max-width: 768px) {
+  .title {
+    font-size: 26px;
+  }
+  .dropZone {
+    padding: 48px 20px;
+    border-radius: 12px;
+  }
+  .uploadIcon {
+    width: 60px;
+    height: 60px;
+  }
+  .uploadIcon svg {
+    width: 24px;
+    height: 24px;
+  }
+  .uploadTitle {
+    font-size: 16px;
+  }
+  .fileBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  .fileInfo {
+    width: 100%;
+  }
+  .fileActions {
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+  .extractBtn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+  .closeBtn {
+    padding: 8px;
+  }
+  .tab {
+    padding: 12px 16px;
+    font-size: 12px;
+    flex: 1;
+    justify-content: center;
+  }
+  .messages {
+    padding: 12px;
+    max-height: 340px;
+    min-height: 260px;
+  }
+  .msgBubble {
+    max-width: 90%;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  .suggested {
+    padding: 0 12px 12px;
+  }
+  .suggestedBtn {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  .inputRow {
+    padding: 12px;
+  }
+  .chatInput {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .sendBtn {
+    padding: 8px 12px;
+  }
+  .propertiesTab {
+    padding: 12px;
+  }
+  .propTable {
+    font-size: 12px;
+  }
+  .propTable th, .propTable td {
+    padding: 8px 10px;
+  }
+}

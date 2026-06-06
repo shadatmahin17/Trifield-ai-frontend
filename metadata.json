@@ -1,0 +1,6 @@
+{
+  "name": "TriField AI",
+  "description": "Research paper search platform for Aerospace, Materials, and Textile disciplines.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

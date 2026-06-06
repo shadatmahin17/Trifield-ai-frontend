@@ -5,6 +5,8 @@ import SearchPage     from './pages/SearchPage.jsx'
 import PDFPage        from './pages/PDFPage.jsx'
 import CitationsPage  from './pages/CitationsPage.jsx'
 import styles from './App.module.css'
+import logoUrl from '../logo.png'
+import faviconUrl from '../favicon.png'
 
 function Nav() {
   const loc = useLocation()
@@ -32,10 +34,10 @@ function Nav() {
       {/* Mobile Top Header */}
       <header className={styles.mobileHeader}>
         <NavLink to="/" className={styles.logoMobile}>
-         <img 
-            src="/logo.png" 
-            alt="Logo" 
-            style={{ height: '32px', width: 'auto' }}
+         <img
+            src={logoUrl}
+            alt="TriField AI logo"
+            className={styles.logoMobileImage}
           />
         </NavLink>
         <button 
@@ -59,10 +61,15 @@ function Nav() {
       <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ''}`}>
         <div className={styles.sidebarHeader}>
           <NavLink to="/" className={styles.logo}>
-            <img 
-              src="/favicon.png" 
-              alt="Logo" 
-              style={{ height: '44px', width: 'auto' }}
+            <img
+              src={logoUrl}
+              alt="TriField AI logo"
+              className={styles.logoImage}
+            />
+            <img
+              src={faviconUrl}
+              alt="TriField AI logo"
+              className={styles.logoCompactImage}
             />
           </NavLink>
         </div>

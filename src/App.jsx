@@ -92,18 +92,6 @@ function Nav() {
 
         {/* Footer / Context panel inside sidebar */}
         <div className={styles.sidebarFooter}>
-          <div className={styles.disciplinesHeader}>
-            <Compass size={12} className={styles.compassIcon} />
-            <span>DISCIPLINES</span>
-          </div>
-          <div className={styles.disciplinesList}>
-            {disciplines.map((d, i) => (
-              <div key={i} className={styles.disciplineItem}>
-                <span className={styles.bullet} style={{ background: d.color }} />
-                <span className={styles.disciplineName}>{d.name}</span>
-              </div>
-            ))}
-          </div>
           <div className={styles.copyright}>
             <p>TriField AI Project</p>
             <p className={styles.version}>v1.1.0 · Connected</p>

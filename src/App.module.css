@@ -1,376 +1,91 @@
 .shell {
   display: flex;
-  flex-direction: row; /* Horizontal row to align Sidebar + Content on desktop */
+  flex-direction: column;
   min-height: 100vh;
   position: relative;
-  background:
-    radial-gradient(circle at 18% 12%, rgba(255, 178, 44, 0.12), transparent 30%),
-    linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
   z-index: 1;
 }
 
-/* ── Sidebar ── */
-.sidebar {
-  width: 260px;
-  background: var(--glass);
-  backdrop-filter: blur(18px);
-  border-right: 1px solid var(--border);
-  box-shadow: 12px 0 40px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+/* ── Nav ── */
+.nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  flex-shrink: 0;
-}
-
-.sidebarHeader {
-  padding: 32px 24px;
-  border-bottom: 1px solid var(--border);
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 32px;
+  padding: 0 40px;
+  height: 60px;
+  background: rgba(10, 22, 40, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 8px 10px;
+  gap: 9px;
   text-decoration: none;
-}
-
-.logoImage,
-.logoMobileImage,
-.logoCompactImage {
-  display: block;
-  width: auto;
-  object-fit: contain;
-}
-
-.logoImage {
-  height: 40px;
-  max-width: 100%;
-}
-
-.logoMobileImage {
-  height: 28px;
-  max-width: 150px;
-}
-
-.logoCompactImage {
-  display: none;
-  height: 32px;
-  max-width: 42px;
-}
-
-.brand {
-  font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
   color: var(--white);
+  font-family: var(--font-display);
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
 }
-
-.brand em {
+.logo svg { color: var(--blue-glow); }
+.logo em {
   font-style: italic;
-  font-weight: 700;
-  color: var(--gold-light);
+  color: var(--gold);
 }
 
-/* ── Links ── */
 .links {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 24px 16px;
-  flex: 1;
+  align-items: center;
+  gap: 4px;
 }
 
 .link {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--white-dim);
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.link:hover {
-  color: var(--white);
-  background: rgba(133, 72, 54, 0.08);
-}
-
-.link.active {
-  color: var(--accent-contrast);
-  background: linear-gradient(135deg, var(--blue), var(--blue-light));
-  box-shadow: 0 10px 22px rgba(133, 72, 54, 0.20);
-  font-weight: 600;
-  border-left: 3px solid var(--gold-light);
-  padding-left: 13px; /* balance out border margin on click */
-}
-
-.linkIcon {
-  flex-shrink: 0;
-}
-
-/* ── Sidebar Footer ── */
-.sidebarFooter {
-  padding: 24px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.disciplinesHeader {
-  display: flex;
-  align-items: center;
   gap: 6px;
-  font-size: 10px;
-  font-family: var(--font-mono);
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
   color: var(--muted);
-  letter-spacing: 0.1em;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.15s, background 0.15s;
+}
+.link:hover { color: var(--white); background: rgba(26,111,196,0.12); }
+.link.active {
+  color: var(--blue-glow);
+  background: rgba(26,111,196,0.15);
 }
 
-.compassIcon {
-  color: var(--gold-light);
-}
-
-.disciplinesList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.disciplineItem {
+.disciplines {
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.bullet {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.disciplineName {
-  font-size: 12px;
-  color: var(--white-dim);
-}
-
-.copyright {
   font-size: 11px;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-.version {
-  font-size: 10px;
   font-family: var(--font-mono);
-  opacity: 0.7;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
+.dot { color: var(--gold); opacity: 0.6; }
 
-/* ── Mobile Components (Hidden on Desktop) ── */
-.mobileHeader {
-  display: none;
-}
-
-.backdrop {
-  display: none;
-}
-
-/* ── Main layout box ── */
+/* ── Main ── */
 .main {
   flex: 1;
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   padding: 48px 40px;
-  min-height: 100vh;
 }
 
-/* ── Responsive Styling ── */
-/* Tablets and Mid-size devices */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .sidebar {
-    width: 80px;
-    align-items: center;
-    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .sidebarHeader {
-    padding: 24px 10px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .logo {
-    justify-content: center;
-    gap: 0;
-    padding: 6px;
-    border-radius: 12px;
-  }
-
-  .logoImage {
-    display: none;
-  }
-
-  .logoCompactImage {
-    display: block;
-  }
-
-  .brand {
-    display: none;
-  }
-
-  .links {
-    padding: 24px 8px;
-    align-items: center;
-    width: 100%;
-  }
-
-  .link {
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border-radius: 10px;
-    gap: 0;
-  }
-
-  .link span {
-    display: none;
-  }
-
-  .link.active {
-    border-left: none;
-    background: linear-gradient(135deg, var(--blue), var(--blue-light));
-    color: var(--accent-contrast);
-    padding-left: 0;
-  }
-
-  .linkIcon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .sidebarFooter {
-    padding: 16px 8px;
-    align-items: center;
-    width: 100%;
-  }
-
-  .disciplinesHeader, .disciplinesList, .copyright {
-    display: none;
-  }
-
-  .compassIcon {
-    width: 18px;
-    height: 18px;
-    display: block;
-    margin: 0 auto;
-    color: var(--gold-light);
-  }
-
-  .main {
-    padding: 36px 24px;
-  }
-}
-
-/* Mobile Devices */
-@media (max-width: 768px) {
-  .shell {
-    flex-direction: column; /* Vertical box on mobile */
-  }
-
-  .mobileHeader {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 20px;
-    height: 56px;
-    background: var(--glass);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 99;
-  }
-
-  .logoMobile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 8px;
-    border-radius: 10px;
-    background: var(--navy-mid);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-    text-decoration: none;
-  }
-
-  .menuToggle {
-    position: absolute;
-    right: 20px;
-    background: none;
-    border: none;
-    color: var(--white);
-    cursor: pointer;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
-    transition: background 0.15s;
-  }
-
-  .menuToggle:hover {
-    background: rgba(133, 72, 54, 0.08);
-  }
-
-  /* Sidebar transforms into off-canvas sliding model drawer on mobile */
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    height: 100vh;
-    width: 270px;
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1000;
-    background: var(--glass);
-    backdrop-filter: blur(18px);
-    border-right: 1px solid var(--border);
-    box-shadow: 20px 0 40px rgba(0, 0, 0, 0.12);
-  }
-
-  .sidebarOpen {
-    transform: translateX(0);
-  }
-
-  .backdrop {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    z-index: 999;
-    animation: fadeIn 0.2s ease both;
-  }
-
-  .main {
-    padding: 24px 16px;
-  }
+@media (max-width: 700px) {
+  .nav { padding: 0 16px; gap: 12px; }
+  .disciplines { display: none; }
+  .main { padding: 24px 16px; }
 }

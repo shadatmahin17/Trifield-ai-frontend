@@ -1,104 +1,48 @@
-import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
-import { Search, FileText, Quote, Menu, X, Compass } from 'lucide-react'
+import { Search, FileText, Quote, FlaskConical, Layers } from 'lucide-react'
 import SearchPage     from './pages/SearchPage.jsx'
 import PDFPage        from './pages/PDFPage.jsx'
 import CitationsPage  from './pages/CitationsPage.jsx'
 import styles from './App.module.css'
-import logoUrl from '../logo.png'
-import faviconUrl from '../favicon.png'
 
 function Nav() {
   const loc = useLocation()
-  const [isOpen, setIsOpen] = useState(false)
-
-  // Close sidebar on route change
-  useEffect(() => {
-    setIsOpen(false)
-  }, [loc.pathname])
-
   const links = [
     { to: '/',          icon: Search,       label: 'Search'    },
     { to: '/pdf',       icon: FileText,     label: 'PDF Chat'  },
     { to: '/citations', icon: Quote,        label: 'Citations' },
   ]
-
-  const disciplines = [
-    { name: 'Aerospace', color: 'var(--blue)' },
-    { name: 'Materials Science', color: 'var(--gold-light)' },
-    { name: 'Textile Engineering', color: 'var(--white)' },
-  ]
-
   return (
-    <>
-      {/* Mobile Top Header */}
-      <header className={styles.mobileHeader}>
-        <NavLink to="/" className={styles.logoMobile}>
-         <img
-            src={logoUrl}
-            alt="TriField AI logo"
-            className={styles.logoMobileImage}
-          />
-        </NavLink>
-        <button 
-          className={styles.menuToggle} 
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle navigation"
-        >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </header>
+    <nav className={styles.nav}>
+      <NavLink to="/" className={styles.logo}>
+        <Layers size={22} strokeWidth={1.5} />
+        <span>TriField<em>AI</em></span>
+      </NavLink>
 
-      {/* Overlay Backdrop for Mobile */}
-      {isOpen && (
-        <div 
-          className={styles.backdrop} 
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      {/* Sidebar Panel */}
-      <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ''}`}>
-        <div className={styles.sidebarHeader}>
-          <NavLink to="/" className={styles.logo}>
-            <img
-              src={logoUrl}
-              alt="TriField AI logo"
-              className={styles.logoImage}
-            />
-            <img
-              src={faviconUrl}
-              alt="TriField AI logo"
-              className={styles.logoCompactImage}
-            />
+      <div className={styles.links}>
+        {links.map(({ to, icon: Icon, label }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={to === '/'}
+            className={({ isActive }) =>
+              `${styles.link} ${isActive ? styles.active : ''}`
+            }
+          >
+            <Icon size={15} strokeWidth={2} />
+            <span>{label}</span>
           </NavLink>
-        </div>
+        ))}
+      </div>
 
-        <nav className={styles.links}>
-          {links.map(({ to, icon: Icon, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === '/'}
-              className={({ isActive }) =>
-                `${styles.link} ${isActive ? styles.active : ''}`
-              }
-            >
-              <Icon size={16} strokeWidth={2} className={styles.linkIcon} />
-              <span>{label}</span>
-            </NavLink>
-          ))}
-        </nav>
-
-        {/* Footer / Context panel inside sidebar */}
-        <div className={styles.sidebarFooter}>
-          <div className={styles.copyright}>
-            <p>TriField AI Project</p>
-            <p className={styles.version}>v1.1.0 · Connected</p>
-          </div>
-        </div>
-      </aside>
-    </>
+      <div className={styles.disciplines}>
+        <span>Aerospace</span>
+        <span className={styles.dot}>·</span>
+        <span>Materials</span>
+        <span className={styles.dot}>·</span>
+        <span>Textile</span>
+      </div>
+    </nav>
   )
 }
 

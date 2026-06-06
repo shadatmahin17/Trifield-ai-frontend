@@ -1,0 +1,150 @@
+.page { display: flex; flex-direction: column; gap: 32px; }
+.header { animation: fadeUp 0.4s ease both; }
+.title { font-family: var(--font-display); font-size: 32px; font-weight: 400; color: var(--white); margin-bottom: 6px; }
+.sub { font-size: 13px; color: var(--muted); font-family: var(--font-mono); letter-spacing: 0.04em; }
+
+/* ── Layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: flex-start;
+}
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+/* ── Form ── */
+.form {
+  display: flex; flex-direction: column; gap: 18px;
+  background: var(--navy-mid); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px;
+  animation: fadeUp 0.4s 0.05s ease both;
+}
+.fieldGroup { display: flex; flex-direction: column; gap: 6px; }
+.label {
+  font-size: 11px; color: var(--muted);
+  font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.input {
+  background: var(--navy-light); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--white); font-family: var(--font-body);
+  font-size: 14px; padding: 9px 12px; outline: none;
+  transition: border-color 0.15s;
+}
+.input:focus { border-color: var(--blue); }
+.input::placeholder { color: var(--muted); }
+
+/* ── Row ── */
+.row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+/* ── Authors ── */
+.authorList { display: flex; flex-direction: column; gap: 8px; }
+.authorRow { display: flex; gap: 8px; align-items: center; }
+.authorInput {
+  flex: 1; background: var(--navy-light); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--white); font-family: var(--font-body);
+  font-size: 13px; padding: 8px 12px; outline: none; transition: border-color 0.15s;
+}
+.authorInput:focus { border-color: var(--blue); }
+.authorInput::placeholder { color: var(--muted); }
+.removeBtn {
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--muted); padding: 6px; cursor: pointer; display: flex; align-items: center;
+  transition: color 0.15s; flex-shrink: 0;
+}
+.removeBtn:hover { color: #FF8080; border-color: rgba(255,80,80,0.4); }
+.addAuthorBtn {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: 1px dashed var(--border); border-radius: 8px;
+  color: var(--muted); font-size: 12px; font-family: var(--font-body);
+  padding: 7px 12px; cursor: pointer; transition: color 0.15s, border-color 0.15s;
+}
+.addAuthorBtn:hover { color: var(--white); border-color: var(--blue); }
+
+/* ── Style selector ── */
+.styleGrid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+.styleBtn {
+  background: var(--navy-light); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--muted); font-family: var(--font-mono);
+  font-size: 12px; padding: 8px; cursor: pointer;
+  transition: all 0.15s; text-align: center;
+}
+.styleBtn:hover { color: var(--white); border-color: var(--blue); }
+.styleBtnActive {
+  background: rgba(26,111,196,0.15); border-color: var(--blue);
+  color: var(--blue-glow);
+}
+
+/* ── All styles toggle ── */
+.allStylesToggle {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--muted); cursor: pointer;
+}
+.allStylesToggle input { accent-color: var(--blue); width: 14px; height: 14px; cursor: pointer; }
+.allStylesToggle:hover span { color: var(--white-dim); }
+
+/* ── Form actions ── */
+.formActions { display: flex; gap: 10px; }
+.generateBtn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--blue); border: none; border-radius: 10px;
+  color: var(--white); font-family: var(--font-body); font-size: 14px;
+  font-weight: 500; padding: 12px; cursor: pointer; transition: background 0.15s;
+}
+.generateBtn:hover:not(:disabled) { background: var(--blue-light); }
+.generateBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.clearBtn {
+  background: var(--navy-light); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--muted); font-family: var(--font-body);
+  font-size: 14px; padding: 12px 20px; cursor: pointer; transition: color 0.15s;
+}
+.clearBtn:hover { color: var(--white); }
+.error { font-size: 13px; color: #FF8080; }
+
+/* ── Results ── */
+.results {
+  display: flex; flex-direction: column; gap: 14px;
+  animation: fadeUp 0.4s 0.1s ease both;
+}
+.emptyResults {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 12px; padding: 80px 24px;
+  color: var(--muted); text-align: center; font-size: 14px;
+  background: var(--navy-mid); border: 1px dashed var(--border);
+  border-radius: 16px;
+}
+.emptyHint { font-size: 12px; font-family: var(--font-mono); color: var(--blue-glow); }
+
+.citationCard {
+  background: var(--navy-mid); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 20px;
+  animation: fadeUp 0.35s ease both;
+  transition: border-color 0.2s;
+}
+.citationCard:hover { border-color: rgba(58,160,255,0.25); }
+.citationHeader {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px;
+}
+.citationStyle {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.copyBtn {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--navy-light); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--muted); font-size: 12px;
+  font-family: var(--font-body); padding: 5px 10px; cursor: pointer;
+  transition: all 0.15s;
+}
+.copyBtn:hover { color: var(--white); border-color: var(--blue); }
+.copied { color: #5AE06A !important; border-color: rgba(90,224,106,0.4) !important; }
+.citationText {
+  font-size: 13px; color: var(--white-dim); line-height: 1.7;
+  font-family: var(--font-body);
+}
+
+.spin { animation: spin 0.8s linear infinite; }

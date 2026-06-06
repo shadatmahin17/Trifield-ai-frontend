@@ -1,25 +1,24 @@
-import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
-import { Search, FileText, Quote, FlaskConical, Layers } from 'lucide-react'
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
+import { Search, FileText, Quote } from 'lucide-react'
 import SearchPage     from './pages/SearchPage.jsx'
 import PDFPage        from './pages/PDFPage.jsx'
 import CitationsPage  from './pages/CitationsPage.jsx'
 import styles from './App.module.css'
+import logoUrl from '../logo.png'
 
-function Nav() {
-  const loc = useLocation()
+function Sidebar() {
   const links = [
     { to: '/',          icon: Search,       label: 'Search'    },
     { to: '/pdf',       icon: FileText,     label: 'PDF Chat'  },
     { to: '/citations', icon: Quote,        label: 'Citations' },
   ]
   return (
-    <nav className={styles.nav}>
-      <NavLink to="/" className={styles.logo}>
-        <Layers size={22} strokeWidth={1.5} />
-        <span>TriField<em>AI</em></span>
+    <aside className={styles.sidebar} aria-label="Primary navigation">
+      <NavLink to="/" className={styles.logo} aria-label="TriField AI home">
+        <img src={logoUrl} alt="TriField AI" className={styles.logoImage} />
       </NavLink>
 
-      <div className={styles.links}>
+      <nav className={styles.links}>
         {links.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
@@ -29,20 +28,20 @@ function Nav() {
               `${styles.link} ${isActive ? styles.active : ''}`
             }
           >
-            <Icon size={15} strokeWidth={2} />
+            <Icon size={17} strokeWidth={2} />
             <span>{label}</span>
           </NavLink>
         ))}
-      </div>
+      </nav>
 
-      <div className={styles.disciplines}>
+      <div className={styles.disciplines} aria-label="Research disciplines">
         <span>Aerospace</span>
         <span className={styles.dot}>·</span>
         <span>Materials</span>
         <span className={styles.dot}>·</span>
         <span>Textile</span>
       </div>
-    </nav>
+    </aside>
   )
 }
 
@@ -50,7 +49,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className={styles.shell}>
-        <Nav />
+        <Sidebar />
         <main className={styles.main}>
           <Routes>
             <Route path="/"          element={<SearchPage />} />

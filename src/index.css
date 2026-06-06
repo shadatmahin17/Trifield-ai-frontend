@@ -1,23 +1,23 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --navy:       #0A1628;
-  --navy-mid:   #0F2040;
-  --navy-light: #162B52;
-  --blue:       #1A6FC4;
-  --blue-light: #2E8DE8;
-  --blue-glow:  #3AA0FF;
-  --gold:       #C9A84C;
-  --gold-light: #E8C87A;
-  --white:      #F0F4FF;
-  --white-dim:  #B8C8E8;
-  --muted:      #6B82A8;
-  --border:     rgba(42, 82, 152, 0.3);
-  --border-bright: rgba(58, 160, 255, 0.4);
-  --glass:      rgba(15, 32, 64, 0.7);
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body:    'Outfit', sans-serif;
-  --font-mono:    'DM Mono', monospace;
+  --navy:       #F7F7F7;       /* Primary canvas off-white */
+  --navy-mid:   #FFFFFF;       /* Pure white sheets & cards */
+  --navy-light: #EBEBEB;       /* Secondary neutral elements and inputs */
+  --blue:       #854836;       /* Terracotta primary style accent */
+  --blue-light: #9B5542;       /* Louder terracotta hover level */
+  --blue-glow:  #FFB22C;       /* Glowing Amber Gold highlight accent */
+  --gold:       #854836;       /* Warm secondary brown */
+  --gold-light: #FFB22C;       /* Bright golden sand */
+  --white:      #000000;       /* High-contrast pure black text / structural elements */
+  --white-dim:  #222222;       /* Charcoal grey for readable content body */
+  --muted:      #6E6E6E;       /* Slate grey for descriptions, icons, and placeholders */
+  --border:     rgba(0, 0, 0, 0.08); /* Minimal modern razor dividers */
+  --border-bright: rgba(133, 72, 54, 0.22); /* Active state focus outline with a soft terracotta tint */
+  --glass:      rgba(255, 255, 255, 0.85); /* Premium light frosted glass overlay */
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
 }
 
 html { scroll-behavior: smooth; }
@@ -47,8 +47,8 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(26,111,196,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26,111,196,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(133,72,54,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(133,72,54,0.03) 1px, transparent 1px);
   background-size: 48px 48px;
   pointer-events: none;
   z-index: 0;
@@ -82,7 +82,7 @@ body::before {
 .skeleton {
   background: linear-gradient(90deg,
     var(--navy-light) 25%,
-    rgba(42,82,152,0.4) 50%,
+    rgba(133,72,54,0.1) 50%,
     var(--navy-light) 75%
   );
   background-size: 400px 100%;

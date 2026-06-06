@@ -53,7 +53,7 @@
   color: var(--muted); padding: 6px; cursor: pointer; display: flex; align-items: center;
   transition: color 0.15s; flex-shrink: 0;
 }
-.removeBtn:hover { color: #FF8080; border-color: rgba(255,80,80,0.4); }
+.removeBtn:hover { color: var(--danger); border-color: rgba(255,80,80,0.4); }
 .addAuthorBtn {
   display: flex; align-items: center; gap: 6px;
   background: none; border: 1px dashed var(--border); border-radius: 8px;
@@ -74,7 +74,7 @@
 }
 .styleBtn:hover { color: var(--white); border-color: var(--blue); }
 .styleBtnActive {
-  background: rgba(26,111,196,0.15); border-color: var(--blue);
+  background: rgba(133, 72, 54, 0.10); border-color: var(--blue);
   color: var(--blue-glow);
 }
 
@@ -91,18 +91,18 @@
 .generateBtn {
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
   background: var(--blue); border: none; border-radius: 10px;
-  color: var(--white); font-family: var(--font-body); font-size: 14px;
-  font-weight: 500; padding: 12px; cursor: pointer; transition: background 0.15s;
+  color: var(--accent-contrast); font-family: var(--font-body); font-size: 14px;
+  font-weight: 700; padding: 12px; cursor: pointer; box-shadow: 0 10px 24px rgba(133, 72, 54, 0.22); transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
 }
-.generateBtn:hover:not(:disabled) { background: var(--blue-light); }
-.generateBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.generateBtn:hover:not(:disabled) { background: var(--blue-light); transform: translateY(-1px); box-shadow: 0 14px 30px rgba(133, 72, 54, 0.28); }
+.generateBtn:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
 .clearBtn {
   background: var(--navy-light); border: 1px solid var(--border);
   border-radius: 10px; color: var(--muted); font-family: var(--font-body);
   font-size: 14px; padding: 12px 20px; cursor: pointer; transition: color 0.15s;
 }
 .clearBtn:hover { color: var(--white); }
-.error { font-size: 13px; color: #FF8080; }
+.error { font-size: 13px; color: var(--danger); }
 
 /* ── Results ── */
 .results {
@@ -124,7 +124,7 @@
   animation: fadeUp 0.35s ease both;
   transition: border-color 0.2s;
 }
-.citationCard:hover { border-color: rgba(58,160,255,0.25); }
+.citationCard:hover { border-color: rgba(133, 72, 54, 0.22); }
 .citationHeader {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 12px;
@@ -141,7 +141,7 @@
   transition: all 0.15s;
 }
 .copyBtn:hover { color: var(--white); border-color: var(--blue); }
-.copied { color: #5AE06A !important; border-color: rgba(90,224,106,0.4) !important; }
+.copied { color: var(--success) !important; border-color: rgba(39, 122, 56, 0.35) !important; }
 .citationText {
   font-size: 13px; color: var(--white-dim); line-height: 1.7;
   font-family: var(--font-body);

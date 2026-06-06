@@ -41,7 +41,7 @@
 }
 .searchBar:focus-within {
   border-color: var(--blue-glow);
-  box-shadow: 0 0 0 3px rgba(58,160,255,0.1);
+  box-shadow: 0 0 0 3px rgba(133, 72, 54, 0.12);
 }
 .searchIcon { color: var(--muted); flex-shrink: 0; }
 .input {
@@ -92,18 +92,19 @@
   background: var(--blue);
   border: none;
   border-radius: 8px;
-  color: var(--white);
+  color: var(--accent-contrast);
   font-family: var(--font-body);
   font-size: 14px;
-  font-weight: 500;
-  padding: 8px 20px;
+  font-weight: 700;
+  padding: 10px 22px;
   cursor: pointer;
   display: flex; align-items: center; gap: 6px;
   flex-shrink: 0;
-  transition: background 0.15s;
+  box-shadow: 0 10px 24px rgba(133, 72, 54, 0.22);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
 }
-.searchBtn:hover:not(:disabled) { background: var(--blue-light); }
-.searchBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.searchBtn:hover:not(:disabled) { background: var(--blue-light); transform: translateY(-1px); box-shadow: 0 14px 30px rgba(133, 72, 54, 0.28); }
+.searchBtn:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
 .spin { animation: spin 0.8s linear infinite; }
 
 /* ── Filters ── */
@@ -145,7 +146,7 @@
   transition: border-color 0.15s, color 0.15s, background 0.15s;
   white-space: nowrap;
 }
-.exampleBtn:hover { border-color: var(--blue); color: var(--white); background: rgba(26,111,196,0.1); }
+.exampleBtn:hover { border-color: var(--blue); color: var(--white); background: rgba(133, 72, 54, 0.08); }
 
 /* ── Results header ── */
 .results { display: flex; flex-direction: column; gap: 12px; }
@@ -174,7 +175,7 @@
   animation: fadeUp 0.4s ease both;
   transition: border-color 0.2s, background 0.2s;
 }
-.card:hover { border-color: rgba(58,160,255,0.25); background: rgba(15,32,64,0.9); }
+.card:hover { border-color: rgba(133, 72, 54, 0.22); background: #FFFFFF; }
 
 .cardHeader {
   display: flex; justify-content: space-between; align-items: flex-start;
@@ -191,12 +192,12 @@
 .cardActions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .oaBtn {
   display: flex; align-items: center; gap: 5px;
-  background: rgba(46,141,232,0.12); border: 1px solid rgba(46,141,232,0.3);
-  border-radius: 6px; color: #7BC4FF; font-size: 12px;
+  background: rgba(133, 72, 54, 0.08); border: 1px solid rgba(133, 72, 54, 0.22);
+  border-radius: 6px; color: var(--blue); font-size: 12px;
   padding: 4px 10px; text-decoration: none; font-family: var(--font-body);
   transition: background 0.15s; white-space: nowrap;
 }
-.oaBtn:hover { background: rgba(46,141,232,0.22); }
+.oaBtn:hover { background: rgba(133, 72, 54, 0.14); }
 .doiBtn {
   display: flex; align-items: center;
   background: var(--navy-light); border: 1px solid var(--border);
@@ -244,7 +245,7 @@
 }
 .skRow {
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--navy-light) 25%, rgba(42,82,152,0.4) 50%, var(--navy-light) 75%);
+  background: linear-gradient(90deg, var(--navy-light) 25%, rgba(133, 72, 54, 0.10) 50%, var(--navy-light) 75%);
   background-size: 400px 100%;
   animation: shimmer 1.4s infinite;
 }
@@ -252,8 +253,8 @@
 /* ── Error / empty ── */
 .error {
   display: flex; align-items: flex-start; gap: 12px;
-  background: rgba(220, 60, 60, 0.1); border: 1px solid rgba(220,60,60,0.25);
-  border-radius: 10px; padding: 16px 20px; color: #FF8080;
+  background: var(--danger-soft); border: 1px solid rgba(180, 35, 24, 0.20);
+  border-radius: 10px; padding: 16px 20px; color: var(--danger);
   animation: fadeUp 0.3s ease;
 }
 .error strong { display: block; margin-bottom: 4px; }

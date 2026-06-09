@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL || 'https://trifield-ai.up.railway.app'
+const BASE = import.meta.env.VITE_API_URL
 
 async function get(path, params = {}) {
   const url = new URL(BASE + path)

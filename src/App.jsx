@@ -1,16 +1,20 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
-import { Search, FileText, Quote } from 'lucide-react'
-import SearchPage     from './pages/SearchPage.jsx'
-import PDFPage        from './pages/PDFPage.jsx'
-import CitationsPage  from './pages/CitationsPage.jsx'
+import { Search, FileText, Quote, FlaskConical, BarChart2 } from 'lucide-react'
+import SearchPage    from './pages/SearchPage.jsx'
+import PDFPage       from './pages/PDFPage.jsx'
+import CitationsPage from './pages/CitationsPage.jsx'
+import CopilotPage   from './pages/CopilotPage.jsx'
+import AnalyticsPage from './pages/AnalyticsPage.jsx'
 import styles from './App.module.css'
 import logoUrl from '../logo.png'
 
 function Sidebar() {
   const links = [
     { to: '/',          icon: Search,       label: 'Search'    },
+    { to: '/copilot',   icon: FlaskConical, label: 'Copilot'   },
     { to: '/pdf',       icon: FileText,     label: 'PDF Chat'  },
     { to: '/citations', icon: Quote,        label: 'Citations' },
+    { to: '/analytics', icon: BarChart2,    label: 'Analytics' },
   ]
   return (
     <aside className={styles.sidebar} aria-label="Primary navigation">
@@ -52,9 +56,11 @@ export default function App() {
         <Sidebar />
         <main className={styles.main}>
           <Routes>
-            <Route path="/"          element={<SearchPage />} />
-            <Route path="/pdf"       element={<PDFPage />} />
+            <Route path="/"          element={<SearchPage />}    />
+            <Route path="/copilot"   element={<CopilotPage />}   />
+            <Route path="/pdf"       element={<PDFPage />}       />
             <Route path="/citations" element={<CitationsPage />} />
+            <Route path="/analytics" element={<AnalyticsPage />} />
           </Routes>
         </main>
       </div>

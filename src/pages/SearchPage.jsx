@@ -2,7 +2,7 @@ import { useState, useRef, useCallback } from 'react'
 import { Search, SlidersHorizontal, ExternalLink, BookOpen,
          FileText, ChevronDown, X, Loader2, AlertCircle, Download,
          Zap, Brain } from 'lucide-react'
-import { searchPapers, streamSearch } from '../lib/api.js'
+import * as api from '../lib/api.js'
 import styles from './SearchPage.module.css'
 
 const DISCIPLINES = [
@@ -211,9 +211,9 @@ export default function SearchPage() {
 
     const opts = { query: trimmed, discipline: d, yearFrom: yearFrom || null, yearTo: yearTo || null, limit }
 
-    if (useStream) {
+    if (useStream && typeof api.streamSearch === 'function') {
       setStreamPhase('searching')
-      abortRef.current = streamSearch(opts, (event, data) => {
+      abortRef.current = api.streamSearch(opts, (event, data) => {
         switch (event) {
           case 'start':
             break
@@ -258,7 +258,7 @@ export default function SearchPage() {
       setSourceStatus({ openalex: 'searching', crossref: 'searching', arxiv: 'searching', pubmed: 'searching' })
     } else {
       try {
-        const data = await searchPapers(opts)
+        const data = await api.searchPapers(opts)
         setResults(data)
         if (data.interpreted_query) setRewrittenQuery(data.interpreted_query)
         if (data.intent)            setIntent(data.intent)

@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL
+const BASE = import.meta.env.VITE_API_URL || 'https://trifield-ai.up.railway.app'
 
 async function get(path, params = {}) {
   const url = new URL(BASE + path)
@@ -26,67 +26,49 @@ async function post(path, body) {
   return res.json()
 }
 
-// ── Search ────────────────────────────────────────────────────────
+// ── Search (v1 — regular) ─────────────────────────────────────────
 export const searchPapers = ({ query, discipline = 'all', yearFrom, yearTo, limit = 10 }) =>
   get('/api/search/', { query, discipline, year_from: yearFrom, year_to: yearTo, limit })
 
-/**
- * SSE streaming search.
- * Calls onEvent(eventName, data) for each SSE event.
- * Returns an abort controller — call controller.abort() to cancel.
- *
- * Events: start | rewrite | source_complete | source_error | ranking | results | done
- */
-export function streamSearch({ query, discipline = 'all', yearFrom, yearTo, limit = 10 }, onEvent) {
-  const url = new URL(BASE + '/api/search/stream')
-  const params = { query, discipline, year_from: yearFrom, year_to: yearTo, limit }
-  Object.entries(params).forEach(([k, v]) => {
-    if (v !== null && v !== undefined && v !== '') url.searchParams.set(k, v)
+// ── Search (v2 — streaming SSE) ───────────────────────────────────
+export function searchStream({ query, discipline = 'all', yearFrom, yearTo, limit = 10, onEvent }) {
+  const url = new URL(`${BASE}/api/search/stream`)
+  url.searchParams.set('query', query)
+  url.searchParams.set('discipline', discipline)
+  url.searchParams.set('limit', limit)
+  if (yearFrom) url.searchParams.set('year_from', yearFrom)
+  if (yearTo)   url.searchParams.set('year_to',   yearTo)
+
+  const es = new EventSource(url.toString())
+
+  const events = ['start','rewrite','source_complete','ranking','results','done','source_error']
+  events.forEach(evt => {
+    es.addEventListener(evt, e => {
+      try { onEvent(evt, JSON.parse(e.data)) }
+      catch { onEvent(evt, { raw: e.data }) }
+    })
   })
 
-  const controller = new AbortController()
+  es.onerror = () => {
+    onEvent('error', { message: 'Stream connection lost' })
+    es.close()
+  }
 
-  ;(async () => {
-    try {
-      const res = await fetch(url.toString(), { signal: controller.signal })
-      if (!res.ok) throw new Error(`Search failed: ${res.statusText}`)
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
-      let buffer = ''
+  // Auto-close after done
+  es.addEventListener('done', () => es.close())
 
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        buffer += decoder.decode(value, { stream: true })
-        const parts = buffer.split('\n\n')
-        buffer = parts.pop() // keep incomplete chunk
-        for (const part of parts) {
-          const lines = part.split('\n')
-          let eventName = 'message'
-          let dataStr = ''
-          for (const line of lines) {
-            if (line.startsWith('event: ')) eventName = line.slice(7).trim()
-            if (line.startsWith('data: '))  dataStr   = line.slice(6).trim()
-          }
-          if (dataStr) {
-            try { onEvent(eventName, JSON.parse(dataStr)) } catch {}
-          }
-        }
-      }
-    } catch (e) {
-      if (e.name !== 'AbortError') onEvent('error', { message: e.message })
-    }
-  })()
-
-  return controller
+  return () => es.close()   // returns cleanup function
 }
 
-// ── Copilot ───────────────────────────────────────────────────────
+// ── Copilot (v2) ──────────────────────────────────────────────────
 export const copilotAnalyse = ({ query, discipline = 'all', limit = 10 }) =>
   post('/api/copilot/analyse', { query, discipline, limit })
 
-export const copilotSummary = ({ query, discipline = 'all', limit = 6 }) =>
-  post('/api/copilot/summary', { query, discipline, limit })
+export const copilotSummary = ({ query, discipline = 'all' }) =>
+  post('/api/copilot/summary', { query, discipline, limit: 6 })
+
+// ── Analytics (v2) ────────────────────────────────────────────────
+export const getAnalytics = () => get('/api/analytics/')
 
 // ── Citations ─────────────────────────────────────────────────────
 export const getCitationStyles = () => get('/api/citations/styles')
@@ -104,14 +86,11 @@ export const uploadPDF = async (file) => {
   return res.json()
 }
 
-export const chatWithPDF     = (sessionId, question) =>
+export const chatWithPDF      = (sessionId, question) =>
   post('/api/pdf/chat', { session_id: sessionId, question })
 
 export const extractProperties = (sessionId) =>
   get(`/api/pdf/extract-properties/${sessionId}`)
-
-// ── Analytics ─────────────────────────────────────────────────────
-export const getAnalytics = () => get('/api/analytics/')
 
 // ── Health ────────────────────────────────────────────────────────
 export const healthCheck = () => get('/health')

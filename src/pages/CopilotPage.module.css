@@ -112,3 +112,27 @@
   .reportHeader { flex-direction: column; align-items: flex-start; }
   .discSelect { flex-basis: 100%; }
 }
+
+/* ── Summary pre-formatted text (Quick Summary mode) ── */
+.summaryPre {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--white-dim);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+}
+
+/* ── Empty / fallback report state ── */
+.emptyReport {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background: rgba(180, 35, 24, 0.05);
+  border: 1px solid rgba(180, 35, 24, 0.15);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}

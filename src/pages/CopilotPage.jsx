@@ -21,7 +21,7 @@ const EXAMPLE_TOPICS = [
 function CopyBtn({ text }) {
   const [copied, setCopied] = useState(false)
   const copy = async () => {
-    await navigator.clipboard.writeText(text)
+    await navigator.clipboard.writeText(text || '')
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -49,25 +49,30 @@ function Section({ icon: Icon, title, children, accent }) {
 }
 
 function PaperRef({ paper, index }) {
+  // key_papers from /analyse have {title, year, significance, url?, open_access_url?}
+  // key_papers from /analyse fallback have full Paper objects
+  const url     = paper.url || null
+  const oa_url  = paper.open_access_url || null
+  const authors = paper.authors?.slice(0, 2).map(a => a.name || a).join(', ') || null
+
   return (
     <div className={styles.paperRef}>
       <span className={styles.paperIndex}>{index + 1}</span>
       <div className={styles.paperRefContent}>
-        <a href={paper.url} target="_blank" rel="noopener noreferrer" className={styles.paperRefTitle}>
-          {paper.title}
-        </a>
-        {paper.authors?.length > 0 && (
-          <span className={styles.paperRefMeta}>
-            {paper.authors.slice(0, 2).map(a => a.name).join(', ')}
-            {paper.authors.length > 2 && ` et al.`}
-            {paper.year && ` · ${paper.year}`}
-            {paper.citation_count > 0 && ` · ${paper.citation_count} citations`}
-          </span>
-        )}
+        {url
+          ? <a href={url} target="_blank" rel="noopener noreferrer" className={styles.paperRefTitle}>{paper.title}</a>
+          : <span className={styles.paperRefTitle} style={{ cursor: 'default' }}>{paper.title}</span>
+        }
+        <span className={styles.paperRefMeta}>
+          {authors && `${authors} · `}
+          {paper.year && `${paper.year}`}
+          {paper.citation_count > 0 && ` · ${paper.citation_count} citations`}
+          {paper.significance && ` — ${paper.significance}`}
+        </span>
       </div>
-      {paper.open_access_url && (
-        <a href={paper.open_access_url} target="_blank" rel="noopener noreferrer"
-           className={styles.paperRefPdf} title="Open Access PDF">PDF</a>
+      {oa_url && (
+        <a href={oa_url} target="_blank" rel="noopener noreferrer"
+           className={styles.paperRefPdf}>PDF</a>
       )}
     </div>
   )
@@ -87,109 +92,126 @@ function BulletList({ items }) {
   )
 }
 
+// ── /analyse response renderer ────────────────────────────────────────────
+// Backend keys:  summary, key_papers, research_trends, research_gaps,
+//                future_directions, suggested_experiments, search_meta
 function AnalysisReport({ data }) {
-  const fullText = JSON.stringify(data, null, 2)
+  // Normalise keys — backend uses research_trends/research_gaps
+  const summary             = data.summary
+  const key_papers          = data.key_papers           || []
+  const trends              = data.research_trends      || data.trends              || []
+  const gaps                = data.research_gaps        || data.gaps                || []
+  const future_directions   = data.future_directions    || []
+  const suggested_exps      = data.suggested_experiments|| []
+  const methodology_notes   = data.methodology_notes    || null
+  // papers_analysed lives inside search_meta
+  const papers_analysed     = data.search_meta?.papers_analysed
+                           ?? data.papers_analysed
+                           ?? data.paper_count
+                           ?? 0
+  const discipline          = data.search_meta?.discipline ?? data.discipline ?? null
+
+  const fullText = [
+    summary,
+    trends.join('\n'),
+    gaps.join('\n'),
+    future_directions.join('\n'),
+    suggested_exps.join('\n'),
+  ].filter(Boolean).join('\n\n')
 
   return (
     <div className={styles.report}>
       <div className={styles.reportHeader}>
         <div className={styles.reportMeta}>
           <span className={styles.reportQuery}>"{data.query}"</span>
-          {data.discipline && data.discipline !== 'all' && (
-            <span className={styles.disciplineTag}>{data.discipline}</span>
+          {discipline && discipline !== 'all' && (
+            <span className={styles.disciplineTag}>{discipline}</span>
           )}
-          {data.papers_analysed > 0 && (
-            <span className={styles.paperCount}>{data.papers_analysed} papers analysed</span>
+          {papers_analysed > 0 && (
+            <span className={styles.paperCount}>{papers_analysed} papers analysed</span>
           )}
         </div>
         <CopyBtn text={fullText} />
       </div>
 
-      {/* Summary */}
-      {data.summary && (
+      {summary && (
         <div className={styles.summaryBlock}>
-          <p className={styles.summaryText}>{data.summary}</p>
+          <p className={styles.summaryText}>{summary}</p>
         </div>
       )}
 
-      {/* Key papers */}
-      {data.key_papers?.length > 0 && (
+      {key_papers.length > 0 && (
         <Section icon={BookOpen} title="Key Papers" accent="#854836">
           <div className={styles.paperList}>
-            {data.key_papers.map((p, i) => <PaperRef key={i} paper={p} index={i} />)}
+            {key_papers.map((p, i) => <PaperRef key={i} paper={p} index={i} />)}
           </div>
         </Section>
       )}
 
-      {/* Trends */}
-      {data.trends?.length > 0 && (
+      {trends.length > 0 && (
         <Section icon={TrendingUp} title="Research Trends" accent="#FFB22C">
-          <BulletList items={data.trends} />
+          <BulletList items={trends} />
         </Section>
       )}
 
-      {/* Gaps */}
-      {data.gaps?.length > 0 && (
+      {gaps.length > 0 && (
         <Section icon={Microscope} title="Research Gaps" accent="#9B5542">
-          <BulletList items={data.gaps} />
+          <BulletList items={gaps} />
         </Section>
       )}
 
-      {/* Future directions */}
-      {data.future_directions?.length > 0 && (
+      {future_directions.length > 0 && (
         <Section icon={Lightbulb} title="Future Directions" accent="#277A38">
-          <BulletList items={data.future_directions} />
+          <BulletList items={future_directions} />
         </Section>
       )}
 
-      {/* Suggested experiments */}
-      {data.suggested_experiments?.length > 0 && (
+      {suggested_exps.length > 0 && (
         <Section icon={FlaskConical} title="Suggested Experiments" accent="#6E6E6E">
-          <BulletList items={data.suggested_experiments} />
+          <BulletList items={suggested_exps} />
         </Section>
       )}
 
-      {/* Methodology notes */}
-      {data.methodology_notes && (
+      {methodology_notes && (
         <Section icon={Zap} title="Methodology Notes" accent="#854836">
-          <p className={styles.methodNote}>{data.methodology_notes}</p>
+          <p className={styles.methodNote}>{methodology_notes}</p>
         </Section>
       )}
     </div>
   )
 }
 
+// ── /summary response renderer ────────────────────────────────────────────
+// Backend returns: { query, summary (plain string), paper_count }
+// The plain string is structured text with numbered sections — render as-is
 function SummaryReport({ data }) {
+  // Backend key is "summary" (plain text), not "landscape_summary"
+  const text         = data.summary ?? data.landscape_summary ?? ''
+  const paper_count  = data.paper_count ?? 0
+
   return (
     <div className={styles.report}>
       <div className={styles.reportHeader}>
         <div className={styles.reportMeta}>
           <span className={styles.reportQuery}>"{data.query}"</span>
-          {data.discipline && data.discipline !== 'all' && (
-            <span className={styles.disciplineTag}>{data.discipline}</span>
+          {paper_count > 0 && (
+            <span className={styles.paperCount}>{paper_count} papers analysed</span>
           )}
         </div>
-        <CopyBtn text={data.landscape_summary || ''} />
+        <CopyBtn text={text} />
       </div>
-      <div className={styles.summaryBlock}>
-        <p className={styles.summaryText}>{data.landscape_summary}</p>
-      </div>
-      {data.key_themes?.length > 0 && (
-        <Section icon={TrendingUp} title="Key Themes" accent="#FFB22C">
-          <BulletList items={data.key_themes} />
-        </Section>
-      )}
-      {data.notable_authors?.length > 0 && (
-        <Section icon={BookOpen} title="Notable Authors / Groups" accent="#854836">
-          <ul className={styles.bulletList}>
-            {data.notable_authors.map((a, i) => (
-              <li key={i} className={styles.bulletItem}>
-                <span className={styles.bullet} />
-                <span>{a}</span>
-              </li>
-            ))}
-          </ul>
-        </Section>
+
+      {text ? (
+        <div className={styles.summaryBlock}>
+          {/* Render the numbered sections as pre-formatted text so line breaks
+              and numbering from the prompt template are preserved cleanly */}
+          <pre className={styles.summaryPre}>{text}</pre>
+        </div>
+      ) : (
+        <div className={styles.emptyReport}>
+          <AlertCircle size={18} />
+          <p>The summary returned no content. Try a different query or switch to Deep Analysis.</p>
+        </div>
       )}
     </div>
   )
@@ -199,7 +221,7 @@ export default function CopilotPage() {
   const [query,      setQuery]      = useState('')
   const [discipline, setDisc]       = useState('all')
   const [limit,      setLimit]      = useState(10)
-  const [mode,       setMode]       = useState('analyse') // 'analyse' | 'summary'
+  const [mode,       setMode]       = useState('analyse')
   const [loading,    setLoading]    = useState(false)
   const [error,      setError]      = useState(null)
   const [result,     setResult]     = useState(null)
@@ -212,7 +234,7 @@ export default function CopilotPage() {
     setError(null)
     setResult(null)
     try {
-      const fn = mode === 'analyse' ? copilotAnalyse : copilotSummary
+      const fn   = mode === 'analyse' ? copilotAnalyse : copilotSummary
       const data = await fn({ query: trimmed, discipline: d, limit })
       setResult({ mode, data })
     } catch (e) {
@@ -225,13 +247,21 @@ export default function CopilotPage() {
   const handleExample = (ex) => {
     setQuery(ex.q)
     setDisc(ex.d)
-    run(ex.q, ex.d)
+    // Pass explicitly so state update doesn't race
+    const fn = mode === 'analyse' ? copilotAnalyse : copilotSummary
+    const trimmed = ex.q.trim()
+    setLoading(true)
+    setError(null)
+    setResult(null)
+    fn({ query: trimmed, discipline: ex.d, limit })
+      .then(data  => setResult({ mode, data }))
+      .catch(e    => setError(e.message))
+      .finally(() => setLoading(false))
   }
 
   return (
     <div className={styles.page}>
 
-      {/* ── Hero ── */}
       {!result && !loading && (
         <header className={styles.hero}>
           <p className={styles.heroEyebrow}>AI Research Intelligence</p>
@@ -247,7 +277,6 @@ export default function CopilotPage() {
 
       {/* ── Controls ── */}
       <div className={styles.controlsWrap}>
-        {/* Mode tabs */}
         <div className={styles.modeTabs}>
           <button
             className={`${styles.modeTab} ${mode === 'analyse' ? styles.modeTabActive : ''}`}
@@ -263,7 +292,6 @@ export default function CopilotPage() {
           </button>
         </div>
 
-        {/* Search row */}
         <div className={styles.searchBar}>
           <Search size={17} className={styles.searchIcon} />
           <input
@@ -334,7 +362,7 @@ export default function CopilotPage() {
         <>
           {result.mode === 'analyse'
             ? <AnalysisReport data={result.data} />
-            : <SummaryReport data={result.data} />
+            : <SummaryReport  data={result.data} />
           }
           <button
             className={styles.resetBtn}

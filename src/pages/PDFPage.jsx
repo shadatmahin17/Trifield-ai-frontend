@@ -355,7 +355,7 @@ export default function PDFPage() {
     try {
       const data = await uploadPDF(f)
       setSessionId(data.session_id)
-      setMessages([{ role:'assistant', content:`**${f.name}** indexed via Qdrant vector search ✓\n\nAsk me anything — methodology, results, material properties, conclusions, or any specific section.` }])
+      setMessages([{ role:'assistant', content:`**${f.name}** indexed ✓\n\nAsk me anything — methodology, results, material properties, conclusions, or any specific section.` }])
     } catch(e) {
       setError(e.message); setFile(null); setObjectUrl(null)
     } finally {

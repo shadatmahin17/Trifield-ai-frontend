@@ -1,0 +1,414 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px 4px;
+}
+
+/* ── Cozy Header ── */
+.header {
+  margin-bottom: 32px;
+  animation: fadeUp 0.4s ease both;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--blue);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ── Elegant Toast Alert Banners ── */
+.successBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(39, 122, 56, 0.05);
+  color: #277A38;
+  border: 1px solid rgba(39, 122, 56, 0.12);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  animation: fadeIn 0.3s ease both;
+}
+
+.errorBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid rgba(180, 35, 24, 0.1);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  animation: fadeIn 0.3s ease both;
+}
+
+/* ── Minimalist Grid Layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ── Minimal Card ── */
+.card {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.01);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  border-color: rgba(133, 72, 54, 0.12);
+}
+
+/* ── Fine-tuned Avatar Center ── */
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  border: 1.5px solid rgba(133, 72, 54, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s, border-color 0.2s;
+  margin-bottom: 16px;
+}
+
+.avatarWrapper:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(133, 72, 54, 0.08), rgba(255, 178, 44, 0.14));
+  color: var(--blue);
+  font-size: 32px;
+  font-weight: 650;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 10.5px;
+  font-weight: 600;
+  gap: 3px;
+}
+
+.avatarWrapper:hover .avatarOverlay {
+  opacity: 1;
+}
+
+.profileName {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.profileRole {
+  margin-bottom: 8px;
+}
+
+.adminBadge {
+  background: rgba(133, 72, 54, 0.08);
+  border: 1px solid rgba(133, 72, 54, 0.15);
+  color: var(--blue);
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.researcherBadge {
+  background: rgba(110, 110, 110, 0.06);
+  border: 1px solid rgba(110, 110, 110, 0.12);
+  color: var(--muted);
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.profileEmail {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+
+.statsDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 18px 0;
+}
+
+/* ── Activity Metres inside Sidebar card ── */
+.statsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statsSectionTitle {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.metricRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.metricItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.metricIconWrap {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.metricContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.metricValue {
+  font-size: 14px;
+  font-weight: 650;
+  color: var(--white);
+  line-height: 1.2;
+}
+
+.metricLabel {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ── Clean Forms ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formSectionTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white-dim);
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 12px;
+  color: var(--muted);
+}
+
+.input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--navy-light);
+  color: var(--white);
+  padding: 9px 12px 9px 36px;
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.input:focus {
+  border-color: var(--blue);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3.5px rgba(133, 72, 54, 0.06);
+}
+
+.textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--navy-light);
+  color: var(--white);
+  padding: 10px;
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+  resize: vertical;
+  line-height: 1.5;
+  transition: all 0.15s;
+}
+
+.textarea:focus {
+  border-color: var(--blue);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3.5px rgba(133, 72, 54, 0.06);
+}
+
+.fieldHelp {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 1px;
+}
+
+/* ── Minimal Accent Button ── */
+.primaryButton {
+  background: linear-gradient(135deg, var(--blue), var(--blue-light));
+  color: #FFFFFF;
+  border: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 3px 10px rgba(133, 72, 54, 0.12);
+  margin-top: 4px;
+}
+
+.primaryButton:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(133, 72, 54, 0.18);
+}
+
+.primaryButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.logoutButton {
+  width: 100%;
+  margin-top: 10px;
+  background: transparent;
+  color: #B42318;
+  border: 1px solid rgba(180, 35, 24, 0.2);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.logoutButton:hover {
+  background: rgba(180, 35, 24, 0.04);
+  border-color: rgba(180, 35, 24, 0.35);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL 
+const BASE = import.meta.env.VITE_API_URL || 'https://trifield-ai.up.railway.app'
 
 async function get(path, params = {}) {
   const url = new URL(BASE + path)
@@ -104,11 +104,30 @@ export const uploadPDF = async (file) => {
   return res.json()
 }
 
-export const chatWithPDF     = (sessionId, question) =>
+export const chatWithPDF       = (sessionId, question) =>
   post('/api/pdf/chat', { session_id: sessionId, question })
 
 export const extractProperties = (sessionId) =>
   get(`/api/pdf/extract-properties/${sessionId}`)
+
+// PDF session library — backed by Supabase
+export const listPDFSessions   = (limit = 50) =>
+  get('/api/pdf/sessions', { limit })
+
+export const getPDFSession     = (sessionId) =>
+  get(`/api/pdf/sessions/${sessionId}`)
+
+export const deletePDFSession  = async (sessionId) => {
+  const res = await fetch(`${BASE}/api/pdf/sessions/${sessionId}`, { method: 'DELETE' })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }))
+    throw new Error(err.detail || 'Delete failed')
+  }
+  return res.json()
+}
+
+export const getPDFDownloadUrl = (sessionId) =>
+  get(`/api/pdf/download-url/${sessionId}`)
 
 // ── Analytics ─────────────────────────────────────────────────────
 export const getAnalytics = () => get('/api/analytics/')

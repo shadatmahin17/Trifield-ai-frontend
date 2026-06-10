@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
-import { Search, FileText, Quote, FlaskConical, BarChart2 } from 'lucide-react'
+import { Search, FileText, Quote, Telescope, BarChart2 } from 'lucide-react'
 import SearchPage    from './pages/SearchPage.jsx'
 import PDFPage       from './pages/PDFPage.jsx'
 import CitationsPage from './pages/CitationsPage.jsx'
@@ -10,11 +10,11 @@ import logoUrl from '../logo.png'
 
 function Sidebar() {
   const links = [
-    { to: '/',          icon: Search,       label: 'Search'    },
-    { to: '/copilot',   icon: FlaskConical, label: 'Copilot'   },
-    { to: '/pdf',       icon: FileText,     label: 'PDF Chat'  },
-    { to: '/citations', icon: Quote,        label: 'Citations' },
-    { to: '/analytics', icon: BarChart2,    label: 'Analytics' },
+    { to: '/',           icon: Search,    label: 'Search'    },
+    { to: '/pdf',        icon: FileText,  label: 'PDF Chat'  },
+    { to: '/citations',  icon: Quote,     label: 'Citations' },
+    { to: '/copilot',    icon: Telescope, label: 'Copilot'   },
+    { to: '/analytics',  icon: BarChart2, label: 'Analytics' },
   ]
   return (
     <aside className={styles.sidebar} aria-label="Primary navigation">
@@ -38,6 +38,8 @@ function Sidebar() {
         ))}
       </nav>
 
+      <div className={styles.version}>v2.0</div>
+
       <div className={styles.disciplines} aria-label="Research disciplines">
         <span>Aerospace</span>
         <span className={styles.dot}>·</span>
@@ -57,9 +59,9 @@ export default function App() {
         <main className={styles.main}>
           <Routes>
             <Route path="/"          element={<SearchPage />}    />
-            <Route path="/copilot"   element={<CopilotPage />}   />
             <Route path="/pdf"       element={<PDFPage />}       />
             <Route path="/citations" element={<CitationsPage />} />
+            <Route path="/copilot"   element={<CopilotPage />}   />
             <Route path="/analytics" element={<AnalyticsPage />} />
           </Routes>
         </main>

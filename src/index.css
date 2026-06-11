@@ -19,8 +19,6 @@
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
   --accent-contrast: #FFFFFF;  /* Legible text/icons on terracotta surfaces */
-  --accent:      #854836;
-  --navy-dark:   #F0F0F0;
   --danger: #B42318;           /* Accessible error text on light surfaces */
   --danger-soft: rgba(180, 35, 24, 0.08);
   --success: #277A38;

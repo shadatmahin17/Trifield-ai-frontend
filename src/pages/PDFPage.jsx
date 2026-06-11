@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import { uploadPDF, chatWithPDF, extractProperties } from '../lib/api.js'
-import { useAuth } from '../lib/AuthContext.jsx'
 
 
 function useIsNarrowViewport(breakpoint = 768) {
@@ -333,7 +332,6 @@ function ChatPanel({ sessionId, filename, messages, setMessages, onReset, isNarr
 }
 
 export default function PDFPage() {
-  const { incrementPdfCount } = useAuth()
   const [file,      setFile]      = useState(null)
   const [objectUrl, setObjectUrl] = useState(null)
   const [sessionId, setSessionId] = useState(null)
@@ -357,7 +355,6 @@ export default function PDFPage() {
     try {
       const data = await uploadPDF(f)
       setSessionId(data.session_id)
-      incrementPdfCount()
       setMessages([{ role:'assistant', content:`**${f.name}** indexed ✓\n\nAsk me anything — methodology, results, material properties, conclusions, or any specific section.` }])
     } catch(e) {
       setError(e.message); setFile(null); setObjectUrl(null)

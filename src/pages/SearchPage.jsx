@@ -3,7 +3,6 @@ import { Search, SlidersHorizontal, ExternalLink, BookOpen,
          FileText, ChevronDown, X, Loader2, AlertCircle, Download,
          Zap, Brain } from 'lucide-react'
 import { searchPapers, streamSearch } from '../lib/api.js'
-import { useAuth } from '../lib/AuthContext.jsx'
 import styles from './SearchPage.module.css'
 
 const DISCIPLINES = [
@@ -172,7 +171,6 @@ function StreamStatus({ sourceStatus, rewrittenQuery, intent }) {
 }
 
 export default function SearchPage() {
-  const { incrementSearchCount } = useAuth()
   const [query,       setQuery]       = useState('')
   const [discipline,  setDisc]        = useState('all')
   const [yearFrom,    setYearFrom]    = useState('')
@@ -205,9 +203,6 @@ export default function SearchPage() {
     const trimmed = q.trim()
     if (!trimmed) return
     if (abortRef.current) abortRef.current.abort()
-
-    // Increment searches stat count
-    incrementSearchCount()
 
     setLoading(true)
     setError(null)

@@ -1,0 +1,510 @@
+/* ── Modern Premium Container ── */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 16px 12px;
+  }
+}
+
+/* ── Elegant Header ── */
+.header {
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--blue);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  line-height: 1.15;
+}
+
+.subtitle {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin-top: 8px;
+  max-width: 640px;
+}
+
+@media (max-width: 640px) {
+  .header {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  .title {
+    font-size: 26px;
+  }
+  .subtitle {
+    font-size: 13px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ── Modern Feedback Banner Alerts ── */
+.successBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(39, 122, 56, 0.04);
+  color: #1b5e20;
+  border: 1px solid rgba(39, 122, 56, 0.15);
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 550;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(39, 122, 56, 0.03);
+}
+
+.errorBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid rgba(180, 35, 24, 0.15);
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 550;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(180, 35, 24, 0.03);
+}
+
+/* ── Responsive Bento Grid Layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 310px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ── Exquisite Styling for Profile Cards ── */
+.card {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.015);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  border-color: rgba(133, 72, 54, 0.18);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.025);
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+}
+
+/* ── Sidebar/Avatar Presentation Column ── */
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatarContainer {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  border: 2px solid rgba(133, 72, 54, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  background: var(--navy-light);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.avatarWrapper:hover {
+  transform: scale(1.03);
+  border-color: var(--blue);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(133, 72, 54, 0.08), rgba(255, 178, 44, 0.15));
+  color: var(--blue);
+  font-size: 38px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(133, 72, 54, 0.72);
+  backdrop-filter: blur(2px);
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  font-size: 11px;
+  font-weight: 700;
+  gap: 4px;
+}
+
+.avatarWrapper:hover .avatarOverlay {
+  opacity: 1;
+}
+
+.cameraIndicator {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(133, 72, 54, 0.3);
+  border: 2px solid #FFFFFF;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.avatarWrapper:hover ~ .cameraIndicator {
+  transform: scale(1.1) rotate(15deg);
+}
+
+.profileName {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 6px;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.profileRole {
+  margin-bottom: 12px;
+}
+
+.adminBadge {
+  background: rgba(133, 72, 54, 0.07);
+  border: 1px solid rgba(133, 72, 54, 0.18);
+  color: var(--blue);
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.researcherBadge {
+  background: rgba(110, 110, 110, 0.06);
+  border: 1px solid rgba(110, 110, 110, 0.15);
+  color: var(--muted);
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  display: inline-block;
+}
+
+.profileEmail {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  word-break: break-all;
+  background: var(--navy-light);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.statsDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 24px 0;
+}
+
+/* ── Metrics Grid Bento Tiles ── */
+.statsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.statsSectionTitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.metricRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 900px) and (min-width: 580px) {
+  .metricRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 12px;
+  border-radius: 12px;
+  background: var(--navy-light);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.metricItem:hover {
+  transform: translateY(-2px);
+  border-color: rgba(133, 72, 54, 0.15);
+  background: #FFFFFF;
+}
+
+.metricIconWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.metricContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.metricValue {
+  font-size: 20px;
+  font-weight: 850;
+  color: var(--white);
+  line-height: 1.1;
+  font-family: var(--font-mono);
+  margin-bottom: 2px;
+}
+
+.metricLabel {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ── Modern Forms Structure ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.formSectionTitle {
+  font-size: 17px;
+  font-weight: 750;
+  color: var(--white);
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--white-dim);
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 14px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--navy-light);
+  color: var(--white);
+  padding: 11px 14px 11px 40px;
+  font-size: 13.5px;
+  outline: none;
+  font-family: inherit;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input:focus {
+  border-color: var(--blue);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(133, 72, 54, 0.08);
+}
+
+.textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--navy-light);
+  color: var(--white);
+  padding: 12px 14px;
+  font-size: 13.5px;
+  outline: none;
+  font-family: inherit;
+  resize: vertical;
+  line-height: 1.6;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.textarea:focus {
+  border-color: var(--blue);
+  background: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(133, 72, 54, 0.08);
+}
+
+.fieldHelp {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+/* ── Modern Premium Action Button ── */
+.primaryButton {
+  background: linear-gradient(135deg, var(--blue), var(--blue-light));
+  color: #FFFFFF;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  padding: 11px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 3px 12px rgba(133, 72, 54, 0.16);
+  width: max-content;
+}
+
+@media (max-width: 640px) {
+  .primaryButton {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(133, 72, 54, 0.24);
+}
+
+.primaryButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Negative Accent Logout Button ── */
+.logoutButton {
+  width: 100%;
+  margin-top: 12px;
+  background: transparent;
+  color: #c92a2a;
+  border: 1.5px solid rgba(180, 35, 24, 0.15);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.logoutButton:hover {
+  background: rgba(180, 35, 24, 0.05);
+  border-color: rgba(180, 35, 24, 0.35);
+  color: #b01e1e;
+}

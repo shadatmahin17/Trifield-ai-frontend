@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { uploadPDF, chatWithPDF, extractProperties } from '../lib/api.js'
+import { useAuth } from '../lib/AuthContext.jsx'
+import { X, Table } from 'lucide-react'
 
 
 function useIsNarrowViewport(breakpoint = 768) {
@@ -170,7 +172,7 @@ function ChatPanel({ sessionId, filename, messages, setMessages, onReset, isNarr
           padding:'4px 10px', cursor:'pointer',
           display:'flex', alignItems:'center', gap:4
         }}>
-          ✕ New PDF
+          <X size={14} /> New PDF
         </button>
       </div>
 
@@ -249,7 +251,7 @@ function ChatPanel({ sessionId, filename, messages, setMessages, onReset, isNarr
                 borderRadius:20, color:'#854836', fontSize:10,
                 fontFamily:'inherit', padding:'4px 10px', cursor:'pointer'
               }}>
-                ⊞ Extract properties table
+                <Table size={14} /> Extract properties table
               </button>
             </div>
           )}
@@ -332,6 +334,7 @@ function ChatPanel({ sessionId, filename, messages, setMessages, onReset, isNarr
 }
 
 export default function PDFPage() {
+  const { incrementPdfCount } = useAuth()
   const [file,      setFile]      = useState(null)
   const [objectUrl, setObjectUrl] = useState(null)
   const [sessionId, setSessionId] = useState(null)
@@ -355,6 +358,7 @@ export default function PDFPage() {
     try {
       const data = await uploadPDF(f)
       setSessionId(data.session_id)
+      incrementPdfCount()
       setMessages([{ role:'assistant', content:`**${f.name}** indexed ✓\n\nAsk me anything — methodology, results, material properties, conclusions, or any specific section.` }])
     } catch(e) {
       setError(e.message); setFile(null); setObjectUrl(null)

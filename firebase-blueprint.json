@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile and Stats",
+      "description": "User account information, research profile, and search/PDF metrics.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's registered email address."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The displayed research or researcher name."
+        },
+        "bio": {
+          "type": "string",
+          "description": "Researcher scientific focus or biography."
+        },
+        "avatarUrl": {
+          "type": "string",
+          "description": "URL to the user's research profile avatar."
+        },
+        "searchesCount": {
+          "type": "integer",
+          "description": "Total number of research paper searches executed."
+        },
+        "pdfsCount": {
+          "type": "integer",
+          "description": "Total number of research PDF articles analyzed."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the user profile was initialized."
+        }
+      },
+      "required": ["email"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "The primary collection storing user profile details, credentials, and research stats metrics."
+    }
+  }
+}

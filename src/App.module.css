@@ -461,4 +461,23 @@
   text-transform: uppercase;
 }
 
+/* Centered loading screen adjusted for sidebar panel space */
+.loadingOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  z-index: 9999;
+  padding-left: 248px;
+}
+
+@media (max-width: 900px) {
+  .loadingOverlay {
+    padding-left: 0;
+  }
+}
+
+
 

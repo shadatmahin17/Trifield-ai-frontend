@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom'
 import { Search, FileText, Quote, Telescope, BarChart2, LogOut } from 'lucide-react'
+import Lottie from 'lottie-react'
 import SearchPage    from './pages/SearchPage.jsx'
 import PDFPage       from './pages/PDFPage.jsx'
 import CitationsPage from './pages/CitationsPage.jsx'
@@ -10,6 +11,7 @@ import LoginPage     from './pages/LoginPage.jsx'
 import { AuthProvider, useAuth } from './lib/AuthContext.jsx'
 import styles from './App.module.css'
 import logoUrl from '../logo.png'
+import loadingAnimation from './assets/loading-animation.json'
 
 function Sidebar() {
   const { user, signOut, profile, isAdmin } = useAuth()
@@ -85,10 +87,11 @@ function AppContent() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-white">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-3 border-[#854836] border-t-transparent" />
-          <p className="text-xs font-medium text-[#6E6E6E] tracking-widest uppercase">Initializing Portal...</p>
+      <div className={styles.loadingOverlay}>
+        <div className="flex flex-col items-center justify-center">
+          <div style={{ width: 140, height: 140, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Lottie animationData={loadingAnimation} loop={true} />
+          </div>
         </div>
       </div>
     )

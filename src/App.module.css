@@ -5,6 +5,7 @@
   padding-left: 248px;
   position: relative;
   z-index: 1;
+  transition: padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobileHeader {
@@ -26,6 +27,17 @@
   backdrop-filter: blur(16px);
   border-right: 1px solid var(--border);
   box-shadow: 18px 0 48px rgba(0, 0, 0, 0.06);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              gap 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .logo {
@@ -35,7 +47,36 @@
   text-decoration: none;
   flex-shrink: 0;
   min-height: 74px;
-  padding: 10px 12px;
+  padding: 10px 0;
+  flex: 1;
+}
+
+.collapseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #FFFFFF;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.collapseButton:hover {
+  color: var(--blue);
+  background: rgba(133, 72, 54, 0.08);
+  border-color: rgba(133, 72, 54, 0.2);
+}
+
+@media (max-width: 900px) {
+  .collapseButton {
+    display: none !important;
+  }
 }
 
 .logoImage {
@@ -241,7 +282,7 @@
     z-index: 100;
   }
 
-  .logo { display: none; }
+  .logo, .sidebarHeader { display: none !important; }
 
   .links {
     display: flex;
@@ -471,11 +512,102 @@
   background: #FFFFFF;
   z-index: 9999;
   padding-left: 248px;
+  transition: padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (max-width: 900px) {
   .loadingOverlay {
     padding-left: 0;
+  }
+}
+
+/* ── Sidebar Minimization / Maximize States ── */
+@media (min-width: 901px) {
+  .sidebarCollapsed {
+    width: 72px;
+    padding: 24px 12px;
+    gap: 20px;
+  }
+
+  .sidebarCollapsed .logo {
+    display: none !important;
+  }
+
+  .sidebarCollapsed .sidebarHeader {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .sidebarCollapsed .collapseButton {
+    margin-left: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+
+  .sidebarCollapsed .links {
+    width: 100%;
+    align-items: center;
+  }
+
+  .sidebarCollapsed .link {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    transform: none !important;
+  }
+
+  .sidebarCollapsed .link span {
+    display: none;
+  }
+
+  .sidebarCollapsed .userSection {
+    width: 100%;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sidebarCollapsed .userCard {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+    border-color: transparent;
+  }
+
+  .sidebarCollapsed .userPlaceholder {
+    width: 34px;
+    height: 34px;
+    margin: 0;
+  }
+
+  .sidebarCollapsed .userInfo {
+    display: none;
+  }
+
+  .sidebarCollapsed .userSignOut {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+    border-color: rgba(180, 35, 24, 0.1);
+  }
+
+  .sidebarCollapsed .userSignOut span {
+    display: none;
+  }
+
+  .shellCollapsed {
+    padding-left: 72px;
+  }
+
+  .loadingOverlayCollapsed {
+    padding-left: 72px;
   }
 }
 

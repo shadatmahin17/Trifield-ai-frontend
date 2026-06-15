@@ -100,7 +100,6 @@ export function AuthProvider({ children }) {
 
   // Check if current user is admin (defaults to current user email, any email containing 'admin' or explicit metadata role)
   const isAdmin = user ? (
-    user.email === 'mahinaurwave12@gmail.com' || 
     user.email === 'shadatmahin681@gmail.com' || 
     user.email?.toLowerCase().includes('admin') || 
     user.user_metadata?.role === 'admin'
@@ -194,7 +193,7 @@ export function AuthProvider({ children }) {
       const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
         if (firebaseUser) {
           const emailLower = firebaseUser.email?.toLowerCase() || '';
-          const role = (emailLower.includes('admin') || emailLower === 'mahinaurwave12@gmail.com' || emailLower === 'shadatmahin681@gmail.com') ? 'admin' : 'user';
+          const role = (emailLower.includes('admin') || emailLower === 'shadatmahin681@gmail.com') ? 'admin' : 'user';
           
           const mappedUser = {
             id: firebaseUser.uid,
@@ -246,7 +245,7 @@ export function AuthProvider({ children }) {
             setSession({ user: mockUser })
             syncProfileAndStats(mockUser)
           } else {
-            const role = (lowerEmail.includes('admin') || lowerEmail === 'mahinaurwave12@gmail.com' || lowerEmail === 'shadatmahin681@gmail.com') ? 'admin' : 'user'
+            const role = (lowerEmail.includes('admin') || lowerEmail === 'shadatmahin681@gmail.com') ? 'admin' : 'user'
             const newUserRecord = {
               email: lowerEmail,
               password: 'password123',
@@ -298,7 +297,7 @@ export function AuthProvider({ children }) {
 
     if (isFirebaseConfigured && auth) {
       const credentials = await createUserWithEmailAndPassword(auth, email, password)
-      const role = (lowerEmail.includes('admin') || lowerEmail === 'mahinaurwave12@gmail.com' || lowerEmail === 'shadatmahin681@gmail.com') ? 'admin' : 'user';
+      const role = (lowerEmail.includes('admin') || lowerEmail === 'shadatmahin681@gmail.com') ? 'admin' : 'user';
       
       await firebaseUpdateProfile(credentials.user, {
         displayName: email.split('@')[0]
@@ -333,7 +332,7 @@ export function AuthProvider({ children }) {
         throw new Error('This email address is already registered in the workspace.')
       }
 
-      const role = (lowerEmail.includes('admin') || lowerEmail === 'mahinaurwave12@gmail.com' || lowerEmail === 'shadatmahin681@gmail.com') ? 'admin' : 'user'
+      const role = (lowerEmail.includes('admin') || lowerEmail === 'shadatmahin681@gmail.com') ? 'admin' : 'user'
       const newUser = {
         email: lowerEmail,
         password: password,
@@ -366,7 +365,7 @@ export function AuthProvider({ children }) {
       let users = JSON.parse(localStorage.getItem('trifield_users') || '{}')
 
       if (!users[lowerEmail]) {
-        const role = (lowerEmail.includes('admin') || lowerEmail === 'mahinaurwave12@gmail.com' || lowerEmail === 'shadatmahin681@gmail.com') ? 'admin' : 'user'
+        const role = (lowerEmail.includes('admin') || lowerEmail === 'shadatmahin681@gmail.com') ? 'admin' : 'user'
         const newUser = {
           email: lowerEmail,
           password: password,

@@ -1,7 +1,9 @@
 // ── Base config ────────────────────────────────────────────────────────────
-const BASE    = (import.meta.env.VITE_API_URL || 'https://trifield-ai.up.railway.app').replace(/\/$/, '')
+const BASE    = (import.meta.env.VITE_API_URL || 'https://trifield-ai.up.railway.app').replace(/\/+$/, '')
 const API_KEY = import.meta.env.VITE_API_KEY || ''
 
+// BUG FIX: Every request was missing the X-API-Key header — the backend
+// returned 401 for all /api/* calls. All helpers now inject it.
 function authHeaders(extra = {}) {
   return {
     ...(API_KEY ? { 'X-API-Key': API_KEY } : {}),
@@ -36,10 +38,32 @@ async function post(path, body) {
   return res.json()
 }
 
+// ── PDF proxy (fetch a remote PDF through our own backend, avoiding public
+// CORS proxies which are unreliable and frequently blocked/down) ──────────
+export const fetchPDFBlob = async (pdfUrl) => {
+  const url = new URL(BASE + '/api/pdf/proxy')
+  url.searchParams.set('url', pdfUrl)
+  const res = await fetch(url.toString(), { headers: authHeaders() })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }))
+    throw new Error(err.detail || `PDF proxy request failed (${res.status})`)
+  }
+  return res.blob()
+}
+
 // ── Search ─────────────────────────────────────────────────────────────────
 export const searchPapers = ({ query, discipline = 'all', yearFrom, yearTo, limit = 10 }) =>
   get('/api/search/', { query, discipline, year_from: yearFrom, year_to: yearTo, limit })
 
+/**
+ * SSE streaming search.
+ * BUG FIX: was missing X-API-Key header on the fetch call — got 401.
+ * BUG FIX: 'rewrite' event field was data.rewritten_query but backend sends
+ *          data.expanded_query — fixed field name.
+ *
+ * Events: start | rewrite | source_complete | source_error | ranking | results | done | error
+ * Returns AbortController — call .abort() to cancel.
+ */
 export function streamSearch({ query, discipline = 'all', yearFrom, yearTo, limit = 10 }, onEvent) {
   const url = new URL(BASE + '/api/search/stream')
   const params = { query, discipline, year_from: yearFrom, year_to: yearTo, limit }
@@ -153,3 +177,32 @@ export const getTopQueries     = (limit = 10)  => get('/api/analytics/top-querie
 
 // ── Health ─────────────────────────────────────────────────────────────────
 export const healthCheck = () => get('/health')
+
+// ── Library ────────────────────────────────────────────────────────────────
+export const getLibrary = (params = {}) => get('/api/library/', params)
+export const getLibraryStats = () => get('/api/library/stats')
+export const getLibraryColumnTypes = () => get('/api/library/columns')
+export const getLibraryPaper = (paperId) => get(`/api/library/${paperId}`)
+export const uploadToLibrary = async (file, discipline = 'general', uploadedBy = 'anonymous') => {
+  const form = new FormData()
+  form.append('file', file)
+  const res = await fetch(
+    `${BASE}/api/library/upload?discipline=${discipline}&uploaded_by=${encodeURIComponent(uploadedBy)}`,
+    { method: 'POST', headers: authHeaders(), body: form }
+  )
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }))
+    throw new Error(err.detail || 'Upload failed')
+  }
+  return res.json()
+}
+export const extractColumn = (paperId, columnKey) => post(`/api/library/${paperId}/extract/${columnKey}`, {})
+export const extractBatchColumns = (paperId, columnKeys) => post(`/api/library/${paperId}/extract-batch`, columnKeys)
+export const deleteLibraryPaper = async (paperId) => {
+  const res = await fetch(`${BASE}/api/library/${paperId}`, { method: 'DELETE', headers: authHeaders() })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }))
+    throw new Error(err.detail || `Delete failed (${res.status})`)
+  }
+  return res.json()
+}

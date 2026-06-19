@@ -73,27 +73,42 @@ function Section({ icon: Icon, title, children, accent }) {
 }
 
 function PaperRef({ paper, index }) {
-  const url     = paper.url || null
-  const oa_url  = paper.open_access_url || null
-  const authors = paper.authors?.slice(0, 2).map(a => a.name || a).join(', ') || null
+  // Prefer open_access_url (direct PDF/landing), fall back to url (DOI/journal page)
+  const primaryUrl = paper.open_access_url || paper.url || null
+  const doiUrl     = paper.url || null
+
+  const authors = paper.authors || []
+  let authorCite = ''
+  if (authors.length > 0) {
+    const first = (typeof authors[0] === 'object' ? authors[0].name : authors[0]) || ''
+    const lastName = first.split(' ').pop()
+    authorCite = authors.length > 1 ? `${lastName} et al.` : first
+  }
+  const citation = [authorCite, paper.year].filter(Boolean).join(', ')
 
   return (
     <div className={styles.paperRef}>
       <span className={styles.paperIndex}>{index + 1}</span>
       <div className={styles.paperRefContent}>
-        {url
-          ? <a href={url} target="_blank" rel="noopener noreferrer" className={styles.paperRefTitle}>{paper.title}</a>
+        {primaryUrl
+          ? <a href={primaryUrl} target="_blank" rel="noopener noreferrer" className={styles.paperRefTitle}>{paper.title}</a>
           : <span className={styles.paperRefTitle} style={{ cursor: 'default' }}>{paper.title}</span>
         }
         <span className={styles.paperRefMeta}>
-          {authors && `${authors} · `}
-          {paper.year && `${paper.year}`}
+          {citation && <span style={{ fontStyle: 'italic' }}>{citation}</span>}
+          {paper.journal && ` · ${paper.journal}`}
           {paper.citation_count > 0 && ` · ${paper.citation_count} citations`}
           {paper.significance && ` — ${paper.significance}`}
         </span>
+        {paper.open_access_url && doiUrl && doiUrl !== paper.open_access_url && (
+          <a href={doiUrl} target="_blank" rel="noopener noreferrer"
+             style={{ fontSize: '11px', color: '#277A38', marginTop: '2px', display: 'inline-block' }}>
+            DOI / Journal page ↗
+          </a>
+        )}
       </div>
-      {oa_url && (
-        <a href={oa_url} target="_blank" rel="noopener noreferrer"
+      {paper.open_access_url && (
+        <a href={paper.open_access_url} target="_blank" rel="noopener noreferrer"
            className={styles.paperRefPdf}>PDF</a>
       )}
     </div>
@@ -101,138 +116,70 @@ function PaperRef({ paper, index }) {
 }
 
 function RichTextWithPaperLinks({ text, papers }) {
-  if (!text) return null;
-  if (!papers || papers.length === 0) {
-    return <span>{text}</span>;
-  }
+  if (!text) return null
+  if (!papers || papers.length === 0) return <span>{text}</span>
 
-  // Regex to split on [1], [2], etc.
-  const parts = text.split(/(\[\d+\])/g);
+  const parts = text.split(/(\[\d+\])/g)
 
   return (
     <span>
       {parts.map((part, i) => {
-        const match = part.match(/^\[(\d+)\]$/);
+        const match = part.match(/^\[(\d+)\]$/)
         if (match) {
-          const index = parseInt(match[1], 10) - 1;
+          const index = parseInt(match[1], 10) - 1
           if (index >= 0 && index < papers.length) {
-            const paper = papers[index];
-            const title = paper.title || 'Untitled Paper';
-            
-            // Format authors
-            let authorStr = '';
-            if (paper.authors && paper.authors.length > 0) {
-              const names = paper.authors.map(a => a.name || a);
-              if (names.length > 1) {
-                authorStr = `${names[0]} et al.`;
-              } else {
-                authorStr = names[0];
-              }
+            const paper   = papers[index]
+            const authors = paper.authors || []
+            let authorStr = ''
+            if (authors.length > 0) {
+              const first = (typeof authors[0] === 'object' ? authors[0].name : authors[0]) || ''
+              const lastName = first.split(' ').pop()
+              authorStr = authors.length > 1 ? `${lastName} et al.` : first
             }
-            const yearStr = paper.year ? `, ${paper.year}` : '';
-            const paperData = [authorStr, yearStr].filter(Boolean).join('');
-            
-            // Handle URL / DOI URL
-            const url = paper.url || paper.open_access_url || null;
+            const yearStr  = paper.year ? `, ${paper.year}` : ''
+            const label    = `(${authorStr}${yearStr})`
+            const url      = paper.open_access_url || paper.url || null
 
-            // Check if title is already mentioned in the preceding text to prevent repetition
-            const cleanTitle = title.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-            const precedingText = parts[i - 1] || '';
-            const cleanPreceding = precedingText.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-            const titleAlreadyInText = cleanTitle.length > 10 && cleanPreceding.includes(cleanTitle);
-
-            if (titleAlreadyInText) {
-              // Highlight [N] with just metadata & DOI link to be concise
-              return (
-                <span
-                  key={i}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '2px',
-                    background: 'rgba(39, 122, 56, 0.08)',
-                    border: '1px solid rgba(39, 122, 56, 0.22)',
-                    borderRadius: '4px',
-                    padding: '1px 6px',
-                    margin: '0 2px',
-                    fontSize: '11px',
-                    verticalAlign: 'middle',
-                    color: '#277A38',
-                    fontWeight: 500
-                  }}
-                >
-                  {paperData && <span>({paperData})</span>}
-                  {url && (
-                    <a
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        color: '#277A38',
-                        fontWeight: '700',
-                        textDecoration: 'underline',
-                        marginLeft: '4px'
-                      }}
-                      title={`Find study: ${title}`}
-                    >
-                      [DOI/Link]
-                    </a>
-                  )}
-                </span>
-              );
-            } else {
-              // Full inline card with title, author, year, and direct DOI/Link
-              return (
-                <span
-                  key={i}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    gap: '4px',
-                    background: 'rgba(133, 72, 54, 0.08)',
-                    border: '1px solid rgba(133, 72, 54, 0.22)',
-                    borderRadius: '6px',
-                    padding: '2px 8px',
-                    margin: '0 4px',
-                    fontSize: '12px',
-                    verticalAlign: 'middle',
-                    color: '#222'
-                  }}
-                >
-                  <span style={{ fontWeight: 600, color: '#854836' }}>"{title}"</span>
-                  {paperData && <span style={{ color: '#555', fontSize: '11px' }}>({paperData})</span>}
-                  {url && (
-                    <a
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '2px',
-                        color: '#277A38',
-                        fontWeight: '700',
-                        textDecoration: 'underline',
-                        fontSize: '11px',
-                        marginLeft: '4px'
-                      }}
-                      title={`Find study: ${title}`}
-                    >
-                      [DOI/Link]
-                    </a>
-                  )}
-                </span>
-              );
-            }
+            return url ? (
+              <a
+                key={i}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={paper.title}
+                style={{
+                  display: 'inline',
+                  color: '#854836',
+                  fontWeight: 600,
+                  fontSize: '12px',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  margin: '0 2px',
+                }}
+              >
+                {label}
+              </a>
+            ) : (
+              <span
+                key={i}
+                title={paper.title}
+                style={{
+                  color: '#854836',
+                  fontWeight: 600,
+                  fontSize: '12px',
+                  margin: '0 2px',
+                }}
+              >
+                {label}
+              </span>
+            )
           }
         }
-        return <span key={i}>{part}</span>;
+        return <span key={i}>{part}</span>
       })}
     </span>
-  );
+  )
 }
-
 function BulletList({ items, papers }) {
   if (!items?.length) return <p className={styles.emptySection}>None identified.</p>
   return (
